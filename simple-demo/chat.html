@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        const addr = "127.0.0.1";
+        const port = 7000;
+        const uri = "ws";
+        //新建socket对象
+        window.socket = new WebSocket(`ws://${addr}:${port}/${uri}`);
+        //监听netty服务器消息并打印到页面上
+        socket.onmessage = function(event) {
+            let data = JSON.parse(event.data);
+            console.log(data);
+            $("#chat-box").text(`${data.friend}>${data.content}`);
+        }
+        //将发送人接收人的id和要发生的消息发送出去
+        function send(){
+            let data  = eval({
+                "me" : $('#myid').val(),
+                "friend"  : $('#friendid').val(),
+                "content" : $("#chat-input").val()
+            });
+            console.log(data);
+            socket.send(JSON.stringify(data))
+        }
+        //登录事件
+        function login(){
+            let data  = eval({
+                "me" : $('#myid').val(),
+            });
+            console.log(data);
+            socket.send(JSON.stringify(data));
+        }
+    </script>
+</head>
+<body>
+<div id="content" class="row-center">
+    <div id="input-box">
+        <input class="chat-input" id="chat-input" placeholder="message">
+        <input id="myid" placeholder="myid">
+        <button id="login-button" onclick="login()">登录</button>
+        <input id="friendid" placeholder="friendid">
+        <button class="chat-button" id="send" onclick="send()">发送</button>
+    </div>
+    <textarea id="chat-box" readonly style="width: 610px;height: 300px;"></textarea>
+</div>
+</body>
+</html>
