@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @version 6.1.8
  * @author: Abraham Vong
@@ -14,4 +16,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FriendRepository extends JpaRepository<MosFriend,Long>, JpaSpecificationExecutor<MosFriend> {
+    List<MosFriend> getAllByUserid(Long uid);
 }

@@ -3,7 +3,8 @@ package com.cloud.morsechat.netty;
 import com.alibaba.fastjson.JSON;
 import com.cloud.morsechat.aop.Permission;
 import com.cloud.morsechat.domain.Packet;
-import com.cloud.morsechat.domain.UserInfo;
+import com.cloud.morsechat.domain.MessageBody;
+import com.cloud.morsechat.netty.tool.ChannelManger;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -89,7 +90,7 @@ public class WebsocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
             IdleStateEvent evnet = (IdleStateEvent) evt;
             // 判断Channel是否读空闲, 读空闲时移除Channel
             if (evnet.state().equals(IdleState.READER_IDLE)) {
-                ChannelManger.removeChannel(ctx.channel());
+                ChannelManger.getInstance().removeChannel(ctx.channel());
                 System.out.println("(空闲通道被断开) => " + ctx.channel().id().asLongText());
             }
         }
@@ -115,7 +116,7 @@ public class WebsocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 //        System.out.println("(客户端离开了通道) => " + ctx.channel().id().asLongText());
-        ChannelManger.removeChannel(ctx.channel());
+        ChannelManger.getInstance().removeChannel(ctx.channel());
     }
 
     /**
@@ -154,9 +155,9 @@ public class WebsocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
             }
 
             System.out.println(JWT_TOKEN);
-            ChannelManger.addChannel(ctx.channel(), JWT_TOKEN);
-            UserInfo userInfo = ChannelManger.getReceiver(ctx.channel());
-            System.out.println("(新的用户Id) => "+ userInfo.getUserId());
+            ChannelManger.getInstance().addChannel(ctx.channel(), JWT_TOKEN);
+            MessageBody messageBody = ChannelManger.getInstance().getReceiver(ctx.channel());
+            System.out.println("(新的用户Id) => "+ messageBody.getHash());
 
 //            WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
 //                    wsFactoryUri, null, false);
@@ -199,7 +200,7 @@ public class WebsocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
             Packet pkg = JSON.parseObject(request, Packet.class);
             System.out.println("(Websocket数据包) => "+request);
 
-            ChannelManger.broadcastMess(pkg.getFriend(),pkg.getMe(),pkg.getContent());
+            ChannelManger.getInstance().broadcastMessage(pkg.getMe(),pkg.getFriend(),pkg.getContent(),Integer.valueOf(pkg.getType()));
 
         }
     }

@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Objects;
 
 @Aspect
 @Component
@@ -38,8 +39,8 @@ public class AuthAspect {
 
 //        String token = new HttpHeaders().getFirst("token"); //根本不起作用
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-                                       .getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+                                    .getRequestAttributes())).getRequest();
 
         String token = request.getHeader("token");
 

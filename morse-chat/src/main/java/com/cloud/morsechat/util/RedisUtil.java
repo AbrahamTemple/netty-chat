@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -26,13 +27,13 @@ public class RedisUtil {
         /**
          * 指定缓存失效时间
          * @param key 键
-         * @param time 时间(秒)
+         * @param time 时间(天)
          * @return
          */
     public boolean expire(String key, long time) {
         try {
             if (time > 0) {
-                redisTemplate.expire(key, time, TimeUnit.SECONDS);
+                redisTemplate.expire(key, time, TimeUnit.DAYS);
             }
             return true;
         } catch (Exception e) {
@@ -349,285 +350,154 @@ public class RedisUtil {
 //        }
 //        352
 //    }
-//353
-//        354
-//        /**
-//         355
-//         * 获取set缓存的长度
-//         356
-//         * @param key 键
-//        357
-//         * @return
-//        358
-//         */
-//        359
-//    public long sGetSetSize(String key) {
-//        360
-//        try {
-//            361
-//            return redisTemplate.opsForSet().size(key);
-//            362
-//        } catch (Exception e) {
-//            363
-//            e.printStackTrace();
-//            364
-//            return 0;
-//            365
-//        }
-//        366
-//    }
-//367
-//        368
-//        /**
-//         369
-//         * 移除值为value的
-//         370
-//         * @param key 键
-//        371
-//         * @param values 值 可以是多个
-//        372
-//         * @return 移除的个数
-//        373
-//         */
-//        374
-//    public long setRemove(String key, Object... values) {
-//        375
-//        try {
-//            376
-//            Long count = redisTemplate.opsForSet().remove(key, values);
-//            377
-//            return count;
-//            378
-//        } catch (Exception e) {
-//            379
-//            e.printStackTrace();
-//            380
-//            return 0;
-//            381
-//        }
-//        382
-//    }
-//383
-//        // ===============================list=================================
-//        384
-//        385
-//        /**
-//         386
-//         * 获取list缓存的内容
-//         387
-//         * @param key 键
-//        388
-//         * @param start 开始
-//        389
-//         * @param end 结束 0 到 -1代表所有值
-//        390
-//         * @return
-//        391
-//         */
-//        392
-//    public List<Object> lGet(String key, long start, long end) {
-//        393
-//        try {
-//            394
-//            return redisTemplate.opsForList().range(key, start, end);
-//            395
-//        } catch (Exception e) {
-//            396
-//            e.printStackTrace();
-//            397
-//            return null;
-//            398
-//        }
-//        399
-//    }
-//400
-//        401
-//        /**
-//         402
-//         * 获取list缓存的长度
-//         403
-//         * @param key 键
-//        404
-//         * @return
-//        405
-//         */
-//        406
-//    public long lGetListSize(String key) {
-//        407
-//        try {
-//            408
-//            return redisTemplate.opsForList().size(key);
-//            409
-//        } catch (Exception e) {
-//            410
-//            e.printStackTrace();
-//            411
-//            return 0;
-//            412
-//        }
-//        413
-//    }
-//414
-//        415
-//        /**
-//         416
-//         * 通过索引 获取list中的值
-//         417
-//         * @param key 键
-//        418
-//         * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
-//        419
-//         * @return
-//        420
-//         */
-//        421
-//    public Object lGetIndex(String key, long index) {
-//        422
-//        try {
-//            423
-//            return redisTemplate.opsForList().index(key, index);
-//            424
-//        } catch (Exception e) {
-//            425
-//            e.printStackTrace();
-//            426
-//            return null;
-//            427
-//        }
-//        428
-//    }
-//429
-//        430
-//        /**
-//         431
-//         * 将list放入缓存
-//         432
-//         * @param key 键
-//        433
-//         * @param value 值
-//        434
-//         * @param time 时间(秒)
-//        435
-//         * @return
-//        436
-//         */
-//        437
-//    public boolean lSet(String key, Object value) {
-//        438
-//        try {
-//            439
-//            redisTemplate.opsForList().rightPush(key, value);
-//            440
-//            return true;
-//            441
-//        } catch (Exception e) {
-//            442
-//            e.printStackTrace();
-//            443
-//            return false;
-//            444
-//        }
-//        445
-//    }
-//446
-//        447
-//        /**
-//         448
-//         * 将list放入缓存
-//         449
-//         * @param key 键
-//        450
-//         * @param value 值
-//        451
-//         * @param time 时间(秒)
-//        452
-//         * @return
-//        453
-//         */
-//        454
-//    public boolean lSet(String key, Object value, long time) {
-//        455
-//        try {
-//            456
-//            redisTemplate.opsForList().rightPush(key, value);
-//            457
-//            if (time > 0)
-//                458
-//            expire(key, time);
-//            459
-//            return true;
-//            460
-//        } catch (Exception e) {
-//            461
-//            e.printStackTrace();
-//            462
-//            return false;
-//            463
-//        }
-//        464
-//    }
-//465
-//        466
-//        /**
-//         467
-//         * 将list放入缓存
-//         468
-//         * @param key 键
-//        469
-//         * @param value 值
-//        470
-//         * @param time 时间(秒)
-//        471
-//         * @return
-//        472
-//         */
-//        473
-//    public boolean lSet(String key, List<Object> value) {
-//        474
-//        try {
-//            475
-//            redisTemplate.opsForList().rightPushAll(key, value);
-//            476
-//            return true;
-//            477
-//        } catch (Exception e) {
-//            478
-//            e.printStackTrace();
-//            479
-//            return false;
-//            480
-//        }
-//        481
-//    }
-//482
-//        483
-//        /**
-//         484
-//         * 将list放入缓存
-//         485
-//         *
-//         486
-//         * @param key 键
-//        487
-//         * @param value 值
-//        488
-//         * @param time 时间(秒)
-//        489
-//         * @return
-//        490
-//         */
-//        491
-//    public boolean lSet(String key, List<Object> value, long time) {
-//        try {
-//            redisTemplate.opsForList().rightPushAll(key, value);
-//            if (time > 0)
-//            expire(key, time);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+
+        /**
+         * 获取set缓存的长度
+         * @param key 键
+         * @return
+         */
+    public long sGetSetSize(String key) {
+        try {
+            return redisTemplate.opsForSet().size(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+        /**
+         * 移除值为value的
+         * @param key 键
+         * @param values 值 可以是多个
+         * @return 移除的个数
+         */
+    public long setRemove(String key, Object... values) {
+        try {
+            Long count = redisTemplate.opsForSet().remove(key, values);
+            return count;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+        // ===============================list=================================
+
+        /**
+         * 获取list缓存的内容
+         * @param key 键
+         * @param start 开始
+         * @param end 结束 0 到 -1代表所有值
+         * @return
+         */
+    public List<Object> lGet(String key, long start, long end) {
+        try {
+            return redisTemplate.opsForList().range(key, start, end);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+        /**
+         * 获取list缓存的长度
+         * @param key 键
+         * @return
+         */
+    public long lGetListSize(String key) {
+        try {
+            return redisTemplate.opsForList().size(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+        /**
+         * 通过索引 获取list中的值
+         * @param key 键
+         * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
+         * @return
+         */
+    public Object lGetIndex(String key, long index) {
+        try {
+            return redisTemplate.opsForList().index(key, index);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+        /**
+         * 将list放入缓存
+         * @param key 键
+         * @param value 值
+         * @return
+         */
+    public boolean lSet(String key, Object value) {
+        try {
+            redisTemplate.opsForList().rightPush(key, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+        /**
+         * 将list放入缓存
+         * @param key 键
+         * @param value 值
+         * @param time 时间(秒)
+         * @return
+         */
+
+    public boolean lSet(String key, Object value, long time) {
+        try {
+            redisTemplate.opsForList().rightPush(key, value);
+            if (time > 0)
+            expire(key, time);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+        /**
+         * 将list放入缓存
+         * @param key 键
+         * @param value 值
+         * @return
+         */
+    public boolean lSet(String key, List<Object> value) {
+        try {
+            redisTemplate.opsForList().rightPushAll(key, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+        /**
+         * 将list放入缓存
+         *
+         * @param key 键
+         * @param value 值
+         * @param time 时间(秒)
+         * @return
+         */
+    public boolean lSet(String key, List<Object> value, long time) {
+        try {
+            redisTemplate.opsForList().rightPushAll(key, value);
+            if (time > 0)
+            expire(key, time);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
         /**
          * 根据索引修改list中的某条数据

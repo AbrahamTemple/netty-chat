@@ -8,45 +8,42 @@
         const addr = "127.0.0.1";
         const port = 7000;
         const uri = "ws";
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXgiOiLnp4Hlr4YiLCJuaWNrbmFtZSI6IuS6muS8r-aLiee9lSIsImV4cCI6MTYzODEyMzg3MywiaGFzaCI6IjAwMDAwZjU3YmFkMGZiYjA2YTE3NmNlOGU1ODI2OTRmZjI3Y2Y2YjBlYzFkMWMzYjg5NjM5NzAxNGQ3OWE4MmQiLCJlbWFpbCI6ImFicmFoYW1AY2xvdWQuY29tIiwiY29udGVudCI6IuS7luaYr-WFiOefpe-8jOS7luaYr-eFveWKqOiAhe-8jOWNiuecn-WNiuWBh--8jOWFhea7oeefm-ebvuOAgiIsInVzZXJuYW1lIjoiYWJyYWhhbXYifQ.yE7gTA4sMiZlSeVksskEX051KCQzwi3AkcEQnmDwFhU';
         //新建socket对象
-        window.socket = new WebSocket(`ws://${addr}:${port}/${uri}`);
+        window.socket = new WebSocket(`ws://${addr}:${port}/${uri}?token=${token}`);
         //监听netty服务器消息并打印到页面上
         socket.onmessage = function(event) {
             let data = JSON.parse(event.data);
             console.log(data);
-            $("#chat-box").text(`${data.friend}>${data.content}`);
-        }
+            $("#chat-box").append(`${data.hash}\n`);
+            $("#chat-box").append(`${data.createTime}>${data.content}\n`);
+            // $("#chat-box").text(`${data.friend}>${data.content}`);
+        };
         //将发送人接收人的id和要发生的消息发送出去
         function send(){
             let data  = eval({
                 "me" : $('#myid').val(),
                 "friend"  : $('#friendid').val(),
                 "content" : $("#chat-input").val(),
-                "type": "2"
+                "type": 1
             });
             console.log(data);
             socket.send(JSON.stringify(data))
         }
         //登录事件
         function login(){
-            let data  = eval({
-                "me" : $('#myid').val(),
-                "code":  $('#mycode').val(),
-                "type": "1"
-            });
-            console.log(data);
-            socket.send(JSON.stringify(data));
+            $.get(`http://${addr}:8882/login`,{'username':$('#myid').val(),'password':$('#mycode').val()},function (data) {
+                console.log(data);
+            })
         }
     </script>
 </head>
 <body>
 <div id="content" class="row-center">
     <div id="input-box">
-        <input id="myid" placeholder="登录账号">
-        <input id="mycode" placeholder="登录密码">
-        <button id="login-button" onclick="login()">登录</button><br>
+        <input id="myid" placeholder="hash">
         <input class="chat-input" id="chat-input" placeholder="message">
-        <input id="friendid" placeholder="friendid">
+        <input id="friendid" placeholder="friend">
         <button class="chat-button" id="send" onclick="send()">发送</button>
     </div>
     <textarea id="chat-box" readonly style="width: 610px;height: 300px;"></textarea>
