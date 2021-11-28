@@ -6,7 +6,9 @@
 
 - 运行Netty服务器类与多个页面，先登录获取token才能点对点发送消息。
 
-- Jwt搭配Aop在Springboot上使用，实现了全局的权限控制
+- Aop获取请求头的token做JWT验证，控制全局Http数据访问权限
+
+- 基于Hibernate 4.3.x的联表查询
 
 ## 核心代码
 
