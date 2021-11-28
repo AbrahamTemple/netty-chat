@@ -1,10 +1,10 @@
 # Websocket+Netty加密聊天项目
 
-## 使用说明
+## 简介
 
 - 项目由Springboot（port：8882）内带Netty（port:7000）跑起来
 
-- 运行Netty服务器类与多个页面，先登录获取token才能点对点发送消息。
+- 访问Netty服务器前，必先获取token参数方可进行点对点的消息发送。
 
 - Aop获取请求头的token做JWT验证，控制全局Http数据访问权限
 
