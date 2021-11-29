@@ -1,0 +1,105 @@
+.dialogs {
+	width: 440px;
+	height: 100%;
+	min-width: 260px;
+	border-right: 1px solid #e7e7e7;
+}
+
+.dialogs::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.dialogs__header {
+	display: flex;
+	justify-content: stretch;
+}
+
+.dialogs__burger-button {
+	width: 18px;
+	height: 12px;
+	margin: 20px 18px 10px;
+	background-image: url("../img/burger-menu.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.dialogs__search-form {
+	padding: 10px;
+	padding-left: 0;
+	width: 100%;
+}
+
+.dialogs__search-field {
+	width: 100%;
+	padding: 12px 15px;
+	background-color: #f1f1f1;
+	border-radius: 5px;
+	cursor: text;
+}
+
+.dialogs__item {
+	position: relative;
+	display: flex;
+	max-width: 100%;
+	overflow: hidden;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.dialogs__item:hover {
+	background-color: #f1f1f1;
+}
+
+.dialogs__item_active, .dialogs__item_active:hover, .dialogs__item_active .dialogs__preview, .dialogs__item_active .dialogs__last-message-time {
+	color: #ffffff;
+	background-color: #419fd9;
+}
+
+.dialogs__card {
+	flex: 1 1 20%;
+	overflow: hidden;
+}
+
+.dialogs__avatar {
+	width: 45px;
+	height: 45px;
+	align-self: center;
+	margin-left: 15px;
+	margin-right: 10px;
+	border-radius: 50%;
+	cursor: pointer;
+	flex: 0 0 45px;
+}
+
+.dialogs__title {
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.dialogs__preview {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	max-width: 95%;
+	max-height: 1.5em;
+	color: #999999;
+	font-size: 14px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.dialogs__last-message-time {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #999999;
+	font-size: 14px;
+}
+
+@media (max-width: 745px) {
+	/* .dialogs {
+		display: none;
+	} */
+}
