@@ -1,0 +1,512 @@
+Thinkphp 
+    架构的方式 MVC 
+        M：model 模型 用来对数据进行CURD 操作
+        V：view 视图 html页面
+        C：controller 控制器 用来写业务逻辑
+
+    用户 -> 输入url -> 找到控制器 (模块home/admin/控制器/方法) -> 业务(加载模型) -> 赋值给视图 -> 由view视图来做显示 
+
+
+
+第三阶段 WEB前端框架
+    vue + nodejs 
+    Vue2 + Vue3 
+
+
+Vue 有两张安装方式
+    1、利用脚手架的方式去安装(推荐使用)
+        nodejs
+        webpack es6  eslint 自动化工具
+
+    2、类似于 jquery 直接引入一个js文件 单页面应用
+
+
+指令
+    v-model  绑定数据 (双向绑定 当检测到有变化的时候，不管是页面  还是 data的数据 都会跟着一起变化)
+    v-model="绑定的是变量"  变量是data里面定义的
+
+
+正常在模板中输出变量的方式 ::  大胡子写法 
+{{ 变量名称 }}
+
+
+Vue 
+    类似于 MVC 架构方式 
+    MVVM  升级版 数据的双向绑定
+        M： model模型(数据)
+        V： 视图 (界面)
+        VM(C)：桥梁
+            Controller 控制器
+            VM：视图模型(组件) 组件化开发
+
+常用的指令
+
+v-if 条件判断
+v-show  显示和隐藏
+v-model  数据绑定
+v-for  循环
+v-html 输出带有html标签的变量
+v-pre  不解析变量直接输出 原本的内容
+v-bind 缩写 :属性="变量"  绑定属性
+v-on 绑定事件
+
+
+new Vue 创建一个vue应用 
+el属性： 绑定vue的根元素
+data属性： 用来定义vue应用中的数据部分
+        存放的是 我们标量的数据 基本的类型 字符串、布尔、数组
+methods： 定义方法
+computed: 计算属性 == data 属性, data / computed 不能够出现重复   区别在于  计算属性 是可以写一部分的逻辑进去
+watch: 监听器 可以监听 data数据里面的变量 变化前和变化后的结果
+filters： 过滤器，对我们的变量内容来进行一些调整 或者是格式的变化   例如： num = 1000000 100,1000
+
+$refs 获取dom元素
+this 代表整个 vue的应用
+获取data数据   this.data的变量名
+
+在js中 一般操作的元素  dom节点
+
+在vue中获取dom的元素  ref 属性
+
+Vue2.x 版本
+Vue生命周期 => app生命周期
+new Vue 创建一个Vue应用
+beforeCreate 第一个生命周期钩子 创建前的钩子
+Data 绑定数据的双向关系
+初始化事件(框架的事件、和我们methods里面自定义的事件方法)
+created 第二个生命周期钩子函数  创建后的钩子函数
+找el 根元素  对根元素 进行 编译
+beforeMount 第三个生命周期的钩子函数  挂载前的钩子 接口请求
+创建根元素，并将结果替换上去
+mounted 第四个生命周期的函数， 挂载后的生命周期函数
+
+beforeUpdate  数据更新前的钩子
+updated   数据更新后的钩子函数 自动触发的
+
+---------- 页面  已经渲染完成 并且显示出来  ----  
+从 A 界面  跳转到了  B 界面
+销毁前
+beforeDestroy 
+
+销毁后
+Destroyed
+
+整个生命周期的钩子函数： 8个
+创建前后
+挂载前后
+更新前后 可以用 watch 监听器来替换
+销毁前后
+
+
+
+指令
+    v-model 数据绑定
+    v-bind  属性绑定
+    v-for  循环
+    v-if  条件
+    v-show  显示和隐藏
+    v-on 事件绑定
+    v-once  仅绑定一次
+    v-html 输出标签并解析
+    v-pre  不解析 
+
+属性 除了可以在 new Vue 根组件中使用以外 还可以在 子组件中也是可以使用的
+    el 绑定根元素
+    data 数据  子组件 是 个 方法 方法返回对象 vue2 
+    methods 方法
+    filters 过滤器
+    computed 计算属性
+    watch 监听器
+    $ref 获取dom属性 
+    components  加载组件的属性
+    
+生命周期
+    创建前 
+    创建后
+    挂载前 
+    挂载后 
+    更新前
+    更新后 
+    销毁前
+    销毁后 
+
+组件 MV VM 桥梁(监听)  VM === Controller 控制器 === 组件 
+
+
+走 apache  http 访问  
+走  file 协议 本地
+
+
+域名 -> 备案 (1 - 2星期)
+服务器 IP地址  域名去访问
+
+ask 论坛项目
+
+磁盘 ： 40G 
+
+5 ~ 6 
+半年 : 300
+
+TP： 
+    11月 20 日 在本地将前后台做好
+
+组件是可以传值的
+在父子组件通信的时候 
+父组件 传递 数据 给子组件的时候 用  属性传递 并且 传递的这个属性必须要在字组件内有所定义
+
+子组件  传递 数据 给父组件 用 自定义事件 
+自带一些 js 事件 click mouseover
+
+核心的原理： 让子组件 去 触发 自定义事件  在触发的时候 传参过去 然后触发的事件方法 在 父组件里面定义  这样 就可以在父当中去接收到参数
+
+插槽 slot
+作用：可以在调用组件的时候，随时替代他
+
+
+Thinkphp 开箱即用 集成MVC 验证码 分页 
+
+home/Controller/Index.php  => index 方法 
+
+Vue 用时加载 什么时候用 什么时候加载
+    Vue  只是提供 一套 标准的MVVM的框架流程 除此之外 啥都没有
+
+Vue项目开发 输入一套全家桶
+Vue 
+通过一些url地址 来加载不同的组件 
+
+/   =>  属于 默认打开的界面
+/user   => user.vue  => 组件
+/order  => order.vue   => 组件
+
+使用 vue-router  来给vue 增加一个路由功能
+
+Vue 是 单页面开发 实际上是根据 不同的路由地址 来 加载 不同的组件 进行无刷新的切换  所以 我们页面  就达到 不同路由地址 加载不同的界面进来
+
+TP =>  layout 模板布局
+
+根据不同的路由地址 来切换不同组件
+
+www.ask.com/admin/user/post/info
+
+
+路由跳转：
+1、通过 router-link 组件来跳转 
+2、通过 在 vue应用里面  通过事件跳转  this.$router.push('路由的地址')
+
+
+/user/:id  name:'info'   定义传参  
+<router-link  :to="{name:'info', params:{id:1}}">  传参
+this.$route.params.id   获取传参
+
+/user?name=张三   定义参数
+<router-link :to="{path:'/user', query:{name:'张三'}}"> 传参
+this.$route.query.name  获取传参
+
+this.$route.push  跳转路由 
+
+this.$route.push('/user')   //不带参数
+this.$route.push({path:'/user', query:{name:"张三"}}) //带参数
+
+location.reload()  //刷新
+
+location.go(1) 前进 -1 后退
+
+this.$router.go(0) //刷新当前界面
+this.$router.go(1) //前进
+this.$router.go(-1) //后退
+
+
+路由守卫： 
+    会员中心 => 想要进去 一定要先去判断是否有没有登录 判断是否有cookie
+
+cookie 放到客户端 把一些不重要的信息 或者是公开的信息 放到客户端 目的 平衡服务器的压力
+
+session  放到服务器 安全 服务器压力太大
+会员有多少量 -> 多
+管理员有多少量 -> 少
+
+
+Vue 访问形式
+路由守卫：
+
+url -> 路由 -> 路由守卫 -> 加载组件 -> 渲染到界面
+                -> 判断是否有登录 -> 没登录跳转到登录界面
+
+/user -> 会员中心 -> 先登录 -> 判断是否有没有登录
+
+history结构
+域名 + 路由地址 
+
+localhost + /login
+
+
+---------------------------------------------------------------
+yarn create vite shop --template vue
+
+目录结构
+index.html     是页面的入口文件
+node_modules/   这个项目 通过npm 安装的 依赖包目录
+package.json    项目依赖包的配置文件
+public/          公共访问目录 用来存放 js / css / images
+vite.config.js    构建工具的配置文件 -> 接口的代理，打包的配置
+yarn 和 npm 包管理工具 
+yarn.lock      防止重复安装
+package.lock    
+src             项目开发的源码目录
+    main.js     程序的入口文件
+    App.vue     根组件
+    components/   子组件的文件夹
+    assets/    也是用于放静态资源 logo 插件js 封装的服务
+
+上线
+1、 yarn build  
+    cnpm run build 
+
+2、dist目录 打包生成出来的目录
+
+同源策略
+www.baidu.com  
+
+www.baidu.com
+www.google.com
+非同源策略 跨域 怎么解决跨域 jsonp
+
+走域名  配置一个站点来进行访问
+用phpstudy  创建一个站点  指向的目录
+
+dev 命令   localhost:3000  
+
+build 命令  必须要用站点
+        同步  windows   hosts 文件
+        127.0.0.1    www.shop.com 
+
+管理员取得所有权
+    把hosts文件复制到桌面  在桌面改完之后 在覆盖到 相应的目录
+
+npm cnpm yarn  只要有一个就可以 
+yarn 命令 
+npm run 命令
+
+
+需要在构建工具  vite 里面去 配置一个全局的变量 来代替我们路径
+
+
+
+在脚手架里面去添加路由  Vue全家桶  vue-cli + vite + vue-router 
+vue-router3 版本
+
+
+vue-router4 最新
+
+cnpm  或者 yarn 
+-S 将安装信息写到配置中 package.json 
+cnpm install vue-router@4 -S    
+
+yarn add vue-router@4 -S
+
+创建一个路由文件
+src/routers/index.js 
+
+创建对应的组件
+src/components/home.vue 
+src/components/user.vue 
+
+
+封装好路由之后，要去main.js 里面引入和挂载
+import 引入 
+use 挂载
+
+在App.vue中进行渲染
+<router-view> 标签
+
+
+在底部tab.vue中跳转
+首页 我的 用 <router-link> 来跳转
+
+
+不要把所有的控制器方法 写到一个文件中
+
+Vue  改成 类似于 TP 
+www.ask.com/admin/user/profile 
+             模块  控制器  方法 
+
+控制器
+ask/application/admin/Controller/User.php -> function profile 
+
+视图
+ask/application/admin/view/admin/user/profile.html
+
+
+地址URL： localhost:3000/user/base/profile
+
+控制器 -> 视图
+路由 -> 组件
+
+/ 
+
+路由结构：
+    /src/routers 
+        index.js 
+        /user
+            base.js 
+                profile
+
+组件结构
+    /src/components 
+        /user
+            /base
+                profile.vue 
+
+改造路由
+
+
+include php 
+
+js import.meta.globEager 引入某个目录下面的所有文件
+
+
+../component/user    
+可以通过 vite 构建工具 来 注册一个 全局变量
+让这个全局变量 来 代替   src/ 根目录
+
+__dirname php 魔术常量  __FILE__  获取文件的绝对路径
+获取当前文件所在文件夹的路径
+
+E:/PhpStudy_pro/WWW/shop/src   => @
+E:/PhpStudy_pro/WWW/shop/src/components   => components
+
+
+
+
+改造路由
+1、配置vite选项 vite.config.js 
+
+地址：localhost:3000/user/base/index
+路由：/src/routers/user/base.js
+组件：/src/components/user/base/index.vue 
+接口：www.ask.com/api/user/base/index 
+控制器：ask/application/api/Controllers/User/Base.php -> index 
+
+axios 异步请求工具 http
+
+if($this->request->isPost())
+{
+    $params = $this-request->params('username');
+}
+
+
+搭建脚手架 -> 装路由 -> 改造路由 -> 封装接口 -> 装UI框架 -> 写业务逻辑 -> 打包上线 -> 发布了
+
+
+引入UI框架  Vant 移动端
+-S 写入到 package.json 中  哪个选项 生产 dependencies
+-D 写入到 package.json 中  哪个选项 生产 devDependencies
+cnpm install vant@3 -S
+yarn add vant@3 -S
+
+2、引入
+//引入ui组件
+import Vant from 'vant'
+import 'vant/lib/index.css'
+.use(Vant)   //挂载UI组件
+
+
+3、使用
+
+
+
+
+home 前台
+admin 模块
+创建模块 
+
+//创建api(接口)模块
+php think build --module api
+
+
+www.ask.com/ /api /user/base/reigster 
+
+www.ask.com/api/user/base/register 方法
+
+
+vue这边还没有封装接口 => 改造
+vue 不具备发请求的功能  axios 装插件
+
+api/  放接口的
+services/  放 我们自定义封装的服务(插件)
+    request.js  请求插件
+
+安装axios 
+npm install axios -S => 国内(代理)  => 丢包 
+yarn add axios -S
+
+
+http://localhost:3000/api/user/base/register
+
+
+Thinkphp  apache 80 端口 
+域名：www.ask.com 
+
+www.ask.com/api/user/base/register
+
+
+
+tp 控制器 success error
+会根据你的请求是什么类型 根据类型返回不同的数据结果 
+
+http => 返回跳转界面
+
+xhr => 返回json数据
+
+
+1、安装VantUI框架
+    安装
+    cnpm i vant@next -S 
+
+    //挂载 main.js 
+
+
+2、安装axios异步
+    cnpm install axios -S
+
+3、封装接口服务
+    /src/serivces/request.js 
+    /src/api 
+    vite.config.js  =》 设置代理
+    main.js =》 挂载api 
+    使用 
+        this.$api.register()
+
+4、自己的项目要去创建api模块
+    https://gitee.com/dancefunk/ask.git
+
+5、注册界面 发起请求接口 返回结果做判断
+    /src/components/user/base/register.vue 
+
+
+安装cookie 
+cnpm install vue3-cookies --save
+
+引入和挂载
+import VueCookies from 'vue3-cookies'
+
+.use(VueCookies)
+
+
+第一个：
+    把两个仓库都克隆
+        vue 
+        tp
+
+    配置两个后台
+        www.ask.com -> 自己的
+        www.asks.com -> 我的 vite.config.js
+
+
+调错：
+    1、是什么错误  百度翻译
+    2、具体操作哪个文件 导致的报错
+    3、前后端分离  
+        后端：看一下接口是否可以访问 www.ask.com/api/user/base/login get 还是 post 
+        前端：路由、接口、插件是否安装和挂载 、 方法是否定义
+    整个项目是怎样运行 路由 -> 组件
