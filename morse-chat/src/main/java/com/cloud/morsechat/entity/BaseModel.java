@@ -1,5 +1,7 @@
 package com.cloud.morsechat.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -11,6 +13,7 @@ import java.util.Date;
  * @GitHub https://github.com/AbrahamTemple/
  * @description:
  */
+@Data
 @MappedSuperclass //继承字段
 public class BaseModel implements Serializable {
 

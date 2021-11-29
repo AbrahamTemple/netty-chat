@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.annotation.Resource;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 @EnableJpaRepositories //开启JPA，这里为了使用Hibernate
@@ -22,7 +23,8 @@ public class MorseChatApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        InetSocketAddress address = new InetSocketAddress("127.0.0.1",7000);
+//        InetAddress.getLocalHost().getHostAddress()
+        InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),7000);
         nettyServer.start(address);
     }
 }

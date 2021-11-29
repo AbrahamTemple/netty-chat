@@ -1,6 +1,7 @@
 package com.cloud.morsechat.service.rest.impl;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.cloud.morsechat.domain.GlobalKey;
 import com.cloud.morsechat.entity.model.MosUser;
 import com.cloud.morsechat.service.model.IUserService;
 import com.cloud.morsechat.service.rest.UserService;
@@ -24,7 +25,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends GlobalKey implements UserService {
 
     @Resource
     IUserService IUserService;
@@ -42,18 +43,18 @@ public class UserServiceImpl implements UserService {
 
                 Map<String, String> data = new HashMap<>();
 
-
-                data.put("username",user.getUsername());
-                data.put("nickname",user.getNickname());
-                data.put("hash", user.getHash());
-                data.put("avatar", user.getAvatar());
-                data.put("sex", user.getSex()==1?"男生":user.getSex()==2?"女生":"私密");
-                data.put("email", user.getEmail());
-                data.put("content", user.getContent());
+                data.put(ID,user.getId().toString());
+                data.put(USERNAME,user.getUsername());
+                data.put(NICKNAME,user.getNickname());
+                data.put(HASH, user.getHash());
+                data.put(AVATAR, user.getAvatar());
+                data.put(SEX, user.getSex()==1?"男生":user.getSex()==2?"女生":"私密");
+                data.put(EMAIL, user.getEmail());
+                data.put(CONTENT, user.getContent());
 
                 String token = JWTUtils.getToken(data,1);
 
-                data.put("token", token);
+                data.put(TOKEN, token);
 
                 log.info("令牌一个小时内生效");
 

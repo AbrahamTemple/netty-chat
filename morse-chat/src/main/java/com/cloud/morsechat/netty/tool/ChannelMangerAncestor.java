@@ -2,6 +2,7 @@ package com.cloud.morsechat.netty.tool;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cloud.morsechat.domain.MessageBody;
+import com.cloud.morsechat.domain.GlobalKey;
 import com.cloud.morsechat.util.JWTUtils;
 import io.netty.channel.Channel;
 
@@ -15,14 +16,7 @@ import java.util.Map;
  * @GitHub https://github.com/AbrahamTemple/
  * @description:
  */
-public abstract class ChannelMangerAncestor {
-
-    protected static final String USERNAME = "username";
-    protected static final String HASH = "hash";
-    protected static final String NICKNAME = "nickname";
-    protected static final String SEX = "sex";
-    protected static final String EMAIL = "email";
-    protected static final String CONTENT = "content";
+public abstract class ChannelMangerAncestor extends GlobalKey {
 
     public abstract void addChannel(Channel channel, String token);
     public abstract void broadcastMessage(String myHash, String friendHash, String content, Integer type);

@@ -5,10 +5,10 @@
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
-        const addr = "127.0.0.1";
+        const addr = "127.0.0.1"; //换成本机网卡ip
         const port = 7000;
         const uri = "ws";
-        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXgiOiLnp4Hlr4YiLCJuaWNrbmFtZSI6IuS6muS8r-aLiee9lSIsImV4cCI6MTYzODEyMzg3MywiaGFzaCI6IjAwMDAwZjU3YmFkMGZiYjA2YTE3NmNlOGU1ODI2OTRmZjI3Y2Y2YjBlYzFkMWMzYjg5NjM5NzAxNGQ3OWE4MmQiLCJlbWFpbCI6ImFicmFoYW1AY2xvdWQuY29tIiwiY29udGVudCI6IuS7luaYr-WFiOefpe-8jOS7luaYr-eFveWKqOiAhe-8jOWNiuecn-WNiuWBh--8jOWFhea7oeefm-ebvuOAgiIsInVzZXJuYW1lIjoiYWJyYWhhbXYifQ.yE7gTA4sMiZlSeVksskEX051KCQzwi3AkcEQnmDwFhU';
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXgiOiLlpbPnlJ8iLCJuaWNrbmFtZSI6IumdmemmmSIsImlkIjoiMiIsImF2YXRhciI6Ii9hc3NldHMvaW1nLzEuanBnIiwiZXhwIjoxNjM4MjA1MDk2LCJoYXNoIjoiMDAwMDAwZDZhYmI2YzQ4NGRlZDFmYmE0MDI1N2I4MjgwOTYyNDczOTc0YWMyZDMxOWQ3MDM4ZDY5MjhkZDJlZSIsImVtYWlsIjoiNjM4MDk2Nzc1MkBtYWlsLmNvbSIsImNvbnRlbnQiOiLkuI3opoHmuKnpobrlnLDotbDov5vpgqPkuKrlh4nlpJzjgIIiLCJ1c2VybmFtZSI6ImxvbGl0YSJ9.FA3iI0HGh0zIU9bf8z5bnbJ-7aXlseS5fHYMF0fXB1w';
         //新建socket对象
         window.socket = new WebSocket(`ws://${addr}:${port}/${uri}?token=${token}`);
         //监听netty服务器消息并打印到页面上

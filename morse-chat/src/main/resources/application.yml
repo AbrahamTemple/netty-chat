@@ -3,9 +3,9 @@ server:
 spring:
 
   redis:
-    host: localhost
+    host: 43.225.158.156
     port: 6379
-    password:
+    password: 3626356
     jedis:
       pool:
         max-wait: 30 # 连接池最大阻塞等待时间
@@ -17,8 +17,8 @@ spring:
 
   datasource:
     username: root
-    password:
-    url: jdbc:mysql://127.0.0.1:3306/cyber?serverTimezone=GMT&amp&characterEncoding=utf-8
+    password: 2238531
+    url: jdbc:mysql://43.225.158.156:3306/cyber?serverTimezone=GMT&amp&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource #更改数据库的数据源为druid
     # druid继承的默认属性

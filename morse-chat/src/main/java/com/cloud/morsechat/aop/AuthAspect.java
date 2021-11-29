@@ -1,5 +1,6 @@
 package com.cloud.morsechat.aop;
 
+import com.cloud.morsechat.domain.GlobalKey;
 import com.cloud.morsechat.util.JWTUtils;
 import com.cloud.morsechat.vo.RestResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -9,22 +10,19 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Objects;
 
 @Aspect
 @Component
 @Slf4j
-public class AuthAspect {
+public class AuthAspect extends GlobalKey {
 
     @Pointcut(value = "@annotation(permission)")
     public void Permiss(Permission permission){
@@ -42,7 +40,7 @@ public class AuthAspect {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
                                     .getRequestAttributes())).getRequest();
 
-        String token = request.getHeader("token");
+        String token = request.getHeader(TOKEN);
 
 
         if(StringUtils.isBlank(token) || StringUtils.isEmpty(token)){
