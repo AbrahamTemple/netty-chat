@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @version 6.1.8
@@ -45,7 +47,23 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public RestResponse<List<MessageBranch>> log(String hash1, String hash2) {
         Object data;
+        if(hash2 == null){
+            List<MessageBranch> newBranches = new ArrayList<>();
+
+            //重新组装MessageBranch列表，查询所有的结果返回出去
+            AtomicInteger i = new AtomicInteger();
+            redisUtil.hmget(hash1).forEach((k,v)->{
+                List<MessageBranch> branches = JSON.parseArray(JSON.toJSONString(v), MessageBranch.class);
+                if(branches.size()>0){
+                    MessageBranch branchLast = branches.get(branches.size()-1);
+                    newBranches.add(i.get(),branchLast);
+                    i.getAndIncrement(); //为了解决landau表达式中的i++问题
+                }
+            });
+            return new RestResponse<>(HttpStatus.OK.value(), HttpStatus.OK.toString(),newBranches);
+        }
         if((data = redisUtil.hget(hash1, hash2)) != null){
+            //查询单条结果
             List<MessageBranch> branches = JSON.parseArray(JSON.toJSONString(data), MessageBranch.class);
             return new RestResponse<>(HttpStatus.OK.value(), HttpStatus.OK.toString(),branches);
         }

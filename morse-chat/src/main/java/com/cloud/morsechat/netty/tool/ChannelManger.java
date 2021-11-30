@@ -6,12 +6,9 @@ import com.cloud.morsechat.domain.MessageBody;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -31,6 +28,8 @@ public class ChannelManger extends ChannelMangerAncestor{
 
     private static ChannelManger INSTANCE;
 
+    private volatile static Map<String,String> VISITOR;
+
     public static ChannelManger getInstance(){
         if(INSTANCE == null){
             synchronized (ChannelManger.class) {
@@ -48,9 +47,9 @@ public class ChannelManger extends ChannelMangerAncestor{
     public void addChannel(Channel channel, String token) {
         String remoteAddr = channel.id().asLongText(); //按自己需求解析地址
         //取出token的信息
-        Map<String,String> visitor =  ParseToken(token);
-        if(visitor != null){
-            MessageBody master = new MessageBody(visitor.get(HASH),remoteAddr,channel);
+        VISITOR =  ParseToken(token);
+        if(VISITOR != null){
+            MessageBody master = new MessageBody(VISITOR.get(HASH),remoteAddr,channel);
             POOLS.put(channel, master);
         }
     }
@@ -69,14 +68,16 @@ public class ChannelManger extends ChannelMangerAncestor{
                 Set<Channel> keySet = POOLS.keySet();
                 for (Channel ch : keySet) {
                     MessageBody master = POOLS.get(ch);
-                    if (!master.getHash().equals(friendHash) ) continue;
+                    //如果找不到这位朋友则下一个继续
+                    if (!master.getHash().equals(friendHash)) continue;
+
                     MessageBranch slave = new MessageBranch(myHash, content, new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()), type);
                     master.setSlave(slave);
                     //这里写入Redis
 
-
                     String response = JSON.toJSONString(slave);
                     ch.writeAndFlush(new TextWebSocketFrame(response));
+
                 }
             } finally {
                 RWLOCK.readLock().unlock();

@@ -30,5 +30,10 @@ public class IUserServiceImpl implements IUserService {
         return userRepository.findByUsername(username);
     }
 
+    @Override
+    public MosUser getByHash(String hash) {
+        return userRepository.findByHash(hash);
+    }
+
 
 }

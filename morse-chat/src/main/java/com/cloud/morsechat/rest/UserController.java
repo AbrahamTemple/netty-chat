@@ -1,5 +1,6 @@
 package com.cloud.morsechat.rest;
 
+import com.cloud.morsechat.aop.Permission;
 import com.cloud.morsechat.service.rest.UserService;
 import com.cloud.morsechat.vo.RestResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -33,4 +34,9 @@ public class UserController {
         return userService.info(token);
     }
 
+    @Permission
+    @GetMapping(value = "friend")
+    public RestResponse<Map<String, String>> friend(@RequestParam String hash){
+        return userService.friend(hash);
+    }
 }

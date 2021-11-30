@@ -1,6 +1,13 @@
 package com.cloud.morsechat.service.rest;
 
 
+import com.cloud.morsechat.entity.model.MosFriend;
+import com.cloud.morsechat.vo.RestResponse;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @version 6.1.8
@@ -10,4 +17,5 @@ package com.cloud.morsechat.service.rest;
  * @description:
  */
 public interface FriendService {
+    RestResponse<List<MosFriend>> list(Long uid, HttpSession sess);
 }

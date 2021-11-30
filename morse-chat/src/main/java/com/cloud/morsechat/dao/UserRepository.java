@@ -17,4 +17,5 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<MosUser,Long>, JpaSpecificationExecutor<MosUser> {
     MosUser findByUsername(String username);
+    MosUser findByHash(String hash);
 }

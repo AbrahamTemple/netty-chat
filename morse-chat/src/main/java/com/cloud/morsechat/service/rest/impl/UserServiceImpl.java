@@ -79,4 +79,17 @@ public class UserServiceImpl extends GlobalKey implements UserService {
         return new RestResponse<>(HttpStatus.OK.value(), HttpStatus.OK.toString(),data);
     }
 
+    @Override
+    public RestResponse<Map<String, String>> friend(String hash) {
+        MosUser user = IUserService.getByHash(hash);
+        if(user != null){
+            Map<String, String> data = new HashMap<>();
+            data.put(ID,user.getId().toString());
+            data.put(NICKNAME,user.getNickname());
+            data.put(HASH, user.getHash());
+            return new RestResponse<>(HttpStatus.OK.value(), HttpStatus.OK.toString(),data);
+        }
+        return new RestResponse<>(HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.toString(),null);
+    }
+
 }

@@ -12,4 +12,5 @@ import com.cloud.morsechat.entity.model.MosUser;
  */
 public interface IUserService extends IService<UserRepository>{
     MosUser getByName(String username);
+    MosUser getByHash(String hash);
 }

@@ -14,4 +14,5 @@ import java.util.Map;
 public interface UserService {
     RestResponse<Map<String, String>> login(String username, String password);
     RestResponse<Map<String, String>> info(String token);
+    RestResponse<Map<String, String>> friend(String hash);
 }

@@ -23,7 +23,7 @@ public class MorseChatApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-//        InetAddress.getLocalHost().getHostAddress()
+//        InetAddress.getLocalHost().getHostAddress() //如果网卡是移动网卡则不行
         InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),7000);
         nettyServer.start(address);
     }

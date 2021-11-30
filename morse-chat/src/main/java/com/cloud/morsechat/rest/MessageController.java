@@ -1,6 +1,7 @@
 package com.cloud.morsechat.rest;
 
 import com.cloud.morsechat.aop.Permission;
+import com.cloud.morsechat.domain.LogRequestBody;
 import com.cloud.morsechat.domain.MessageBranch;
 import com.cloud.morsechat.domain.MessageBody;
 import com.cloud.morsechat.service.rest.MessageService;
@@ -32,8 +33,8 @@ public class MessageController {
     }
 
     @Permission
-    @GetMapping(value = "log/{hash1}/{hash2}")
-    public RestResponse<List<MessageBranch>> log(@PathVariable String hash1,@PathVariable String hash2){
-        return messageService.log(hash1, hash2);
+    @PostMapping(value = "log")
+    public RestResponse<List<MessageBranch>> log(@RequestBody LogRequestBody log){
+        return messageService.log(log.getHash1(), log.getHash2());
     }
 }
