@@ -25,6 +25,13 @@ export default {
 	  params: data
 	})
   },
+  message(data = {})
+  {
+  	return PARAM({
+  	  url: '/asset/log',
+  	  params: data
+  	})
+  },
   check(data = {})
   {
     return POST({

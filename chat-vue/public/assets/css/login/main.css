@@ -154,7 +154,7 @@ iframe {
 }
 
 .container-login100 {
-  width: 100%;  
+  width: 100vw;  
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -525,4 +525,10 @@ iframe {
     padding-left: 15px;
     padding-right: 15px;
   }
+}
+
+@media (max-width: 745px) {
+	.limiter {
+		width: 100vw;
+	}
 }

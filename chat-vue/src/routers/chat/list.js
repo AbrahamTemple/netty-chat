@@ -3,11 +3,11 @@ import RelationIndex from '@/components/chat/list/relation.vue'
 
 export default [
 	{
-	    path:'list/dialogs:id',
+	    path:'list/dialogs',
 	    name:'DialogsIndex',
 	    component:DialogsIndex,
 	    meta: {
-	        auth: false
+	        auth: true
 	    }
 	},
 	{
@@ -15,7 +15,7 @@ export default [
 	    name:'RelationIndex',
 	    component:RelationIndex,
 	    meta: {
-	        auth: false
+	        auth: true
 	    }
 	},
 ]

@@ -6,7 +6,7 @@ export default [
         name:'ProfileIndex',
         component:ProfileIndex,
         meta: {
-            auth: false
+            auth: true
         }
     },
  

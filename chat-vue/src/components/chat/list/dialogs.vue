@@ -10,50 +10,20 @@
   		</form>
   	</header>
   	<ul class="dialogs__list">
-		<div>
-			<router-link :to="{name:'WrapperIndex', params:{hash:'123456'}}">
-			<li class="dialogs__item">
-				<img class="dialogs__avatar" src="/assets/img/1.jpg">
+		<div v-for="(log,index) in logs" :key="index" @click="activeOn(index)">
+			<!-- <router-link :to="{name:'WrapperIndex', params:{hash:log.hash}}"> -->
+			<li :class="{dialogs__item:true,dialogs__item_active:index == select}">
+				<img class="dialogs__avatar" :src="log.avatar">
 				
 				<article class="dialogs__card">
-					<h3 class="dialogs__title">Земля китов</h3>
+					<h3 class="dialogs__title">{{log.nickname}}</h3>
 					
-					<time class="dialogs__last-message-time">22:04</time>
+					<time class="dialogs__last-message-time">{{log.createTime}}</time>
 					
-					<p class="dialogs__preview">Photo, Знаменитый норвежский полярный исследователь Руал Амундсен и две его приемные дочери: слева одиннадцатилетняя Камилла Карпендель — родная дочь австралийского торговца Чарли Карпендель, осевшего на Чукотке в 1904 году, и справа четырехлетняя Каконита Амундсен — дочь чукчи Какота, уроженца чукотского Уэлена, участника экспедиции. Этих девочек полярник увез из Чукотки в Норвегию в 1921 году.</p>
+					<p class="dialogs__preview">{{log.content}}</p>
 				</article>
 			</li>
-			</router-link>
-		</div>
-  		
-		<div>
-			<li class="dialogs__item dialogs__item_active">
-				<img class="dialogs__avatar" src="/assets/img/6.jpg">
-				
-				<article class="dialogs__card">
-					<h3 class="dialogs__title">Инсайдеры Windows 10</h3>
-					
-					<time class="dialogs__last-message-time">21:03</time>
-					
-					<p class="dialogs__preview">You: Тут был участник Stefan *** или как-то так. Видимо, его тут больше нет, а мне вдруг приспичило спросить, действительно ли его зовут Стефан. ¯\_(ツ)_/¯</p>
-				</article>
-			</li>
-		</div>
-  		
-		<div>
-			<li class="dialogs__item">
-				<img class="dialogs__avatar" src="/assets/img/7.jpg">
-				
-				<article class="dialogs__card">
-					<h3 class="dialogs__title">Telegram</h3>
-					
-					<time class="dialogs__last-message-time">Tue</time>
-					
-					<div class="dialogs__preview-wrapper">
-						<p class="dialogs__preview">Актуальная информация о борьбе с COVID-19 в России доступна в канале https://t.me/stopcoronavirusrussia.</p>				
-					</div>
-				</article>
-			</li>
+			<!-- </router-link> -->
 		</div>
   	</ul>
   </aside>
@@ -62,18 +32,47 @@
 
 <script>
   import md5 from 'js-md5';
+  import { reactive } from 'vue'; 
   export default {
     name: "dialogs",
+	emits: ['toggle'],
 	data(){
 		return{
 			list: [],
+			/* 
+				me -> friend -> { message }
+			 */
+			logs: [
+				{
+					hash: '000000d6abb6c484ded1fba40257b8280962473974ac2d319d7038d6928dd2ee', //
+					avatar: '/assets/img/1.jpg',
+					nickname: 'Земля китов',
+					content: 'Photo, Знаменитый норвежский полярный исследователь Руал Амундсен и две его приемные дочери: слева одиннадцатилетняя Камилла Карпендель — родная дочь австралийского торговца Чарли Карпендель, осевшего на Чукотке в 1904 году, и справа четырехлетняя Каконита Амундсен — дочь чукчи Какота, уроженца чукотского Уэлена, участника экспедиции. Этих девочек полярник увез из Чукотки в Норвегию в 1921 году.', //
+					createTime: '22:04' //
+				},
+				{
+					hash: '000cd1adb9a3b81ee6f84a8f4b460b3c8a192e998d0b91cf8209b01325e84ac', //
+					avatar: '/assets/img/6.jpg',
+					nickname: 'Инсайдеры Windows 10',
+					content: 'You: Тут был участник Stefan *** или как-то так. Видимо, его тут больше нет, а мне вдруг приспичило спросить, действительно ли его зовут Стефан. ¯\_(ツ)_/¯', //
+					createTime: '21:03' //
+				},
+				{
+					hash: '00000f57bad0fbb06a176ce8e582694ff27cf6b0ec1d1c3b896397014d79a82d', //
+					avatar: '/assets/img/7.jpg',
+					nickname: 'Telegram',
+					content: 'Актуальная информация о борьбе с COVID-19 в России доступна в канале https://t.me/stopcoronavirusrussia.', //
+					createTime: 'TUE' //
+				}
+			],
+			select: 0
 		}
 	},
 	methods:{
-		async friend(value)
+		async message(value)
 		{
 			console.log(value)
-		    var result = await this.$api.friend(value)
+		    var result = await this.$api.message(value)
 		    
 		    //失败
 		    if(result.status != 200)
@@ -92,23 +91,34 @@
 			this.$notify({
 			    type: 'success',
 			    message: result.msg,
-			    duration: 1000,
+			    duration: 500,
 			    onClose: () => {
-					this.list = result.data;
-					console.log(result.data);
+					const obj = reactive(result.data)
+					this.list = obj;
+					console.log(obj);
 			    }
 			})
 
+		},
+		activeOn (index)
+		{
+			this.select = index
+			var _this = this
+			setTimeout(function(){
+				_this.$router.push({name:'WrapperIndex', params:{hash:_this.logs[index].hash}})
+				//缓存active的标记位置
+				_this.$store.commit('selectActive',_this.select)
+			},300);
 		}
 	},
+	created(){
+		//触发父组件的事件 在登录界面需要显示底部
+		this.$emit('toggle', true)
+	},
 	mounted(){
-		let hash = md5(this.$store.state.auth.hash)
-		//如果store中的hash加密等于传过来的加密hash
-		if(hash == this.$route.params.id){
-			//获取登陆id
-			// var id = this.$cookies.get('LoginUser')['id']
-			var id = 1
-			this.friend(id)
+		//如果标记的位置不为空，赋值
+		if(typeof this.$store.state.list.active != 'string'){
+			this.select = this.$store.state.list.active
 		}
 	}
   }

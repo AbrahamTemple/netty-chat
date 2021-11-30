@@ -3,7 +3,7 @@
     <div class="footer">
       <ul>
         <li>
-          <router-link :to="{name:'DialogsIndex', params:{id:-1}}">
+          <router-link to="/chat/list/dialogs">
             <img src="/assets/images/f1.png">
             <p>消息</p>
           </router-link>

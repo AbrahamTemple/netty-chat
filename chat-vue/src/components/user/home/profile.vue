@@ -40,11 +40,17 @@
     name: 'BaseProfile',
     data(){
       return{
-        login: {}
+        login: {
+			avatar: '/assets/images/avatar-01.jpg',
+			nickname: '现在去请登录',
+			email: 'Your Email'
+		}
       }
     },
     mounted(){
-        this.login = this.$cookies.get('LoginUser');
+		if(this.$cookies.get('LoginUser') != undefined){
+			this.login = this.$cookies.get('LoginUser');
+		}
     }
   }
 </script>

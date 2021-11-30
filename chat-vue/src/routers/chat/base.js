@@ -6,7 +6,7 @@ export default [
 	    name:'WrapperIndex',
 	    component:WrapperIndex,
 	    meta: {
-	        auth: false
+	        auth: true
 	    }
 	},
 ]

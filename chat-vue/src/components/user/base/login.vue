@@ -59,7 +59,7 @@
         created()
         {
             //触发父组件的事件 在登录界面不需要显示底部
-            this.$emit('toggle', true)
+            this.$emit('toggle', false)
         },
         data()
         {
@@ -136,7 +136,7 @@
                     duration: 1000,
                     onClose: () => {
 						let hash = md5(this.$store.state.auth.hash)
-                        this.$router.push({name: 'RelationIndex', params: {id: hash}})
+                        this.$router.replace({name: 'RelationIndex', params: {id: hash}})
                     }
                 })
                 return

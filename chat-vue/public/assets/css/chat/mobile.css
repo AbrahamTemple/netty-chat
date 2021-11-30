@@ -1,4 +1,5 @@
 .mobile-menu-wrp {
+  width: 440px;
   background-color: rgba(0, 0, 0, 0);
   display: none;
   height: 100%;
@@ -58,27 +59,27 @@
 }
 
 .mobile-list .mobile-list__item:nth-of-type(1) .mobile-list__link {
-  background-image: url(../img/friend.svg);
+  background-image: url(/assets/img/friend.svg);
 }
 
 .mobile-list .mobile-list__item:nth-of-type(2) .mobile-list__link {
-  background-image: url(../img/speaker.svg);
+  background-image: url(/assets/img/speaker.svg);
 }
 
 .mobile-list .mobile-list__item:nth-of-type(3) .mobile-list__link {
-  background-image: url(../img/user.svg);
+  background-image: url(/assets/img/user.svg);
 }
 
 .mobile-list .mobile-list__item:nth-of-type(4) .mobile-list__link {
-  background-image: url(../img/phone-logo.svg);
+  background-image: url(/assets/img/phone-logo.svg);
 }
 
 .mobile-list .mobile-list__item:nth-of-type(5) .mobile-list__link {
-  background-image: url(../img/settings.svg);
+  background-image: url(/assets/img/settings.svg);
 }
 
 .mobile-list .mobile-list__item:nth-of-type(6) .mobile-list__link {
-  background-image: url(../img/moon.svg);
+  background-image: url(/assets/img/moon.svg);
 }
 
 .profiles-list .mobile-list__item:nth-of-type(1) .mobile-list__link {
@@ -87,7 +88,7 @@
 }
 
 .profiles-list .mobile-list__item:nth-of-type(2) .mobile-list__link {
-  background-image: url(../img/userAlone.svg);
+  background-image: url(/assets/img/userAlone.svg);
 }
 
 .main-screen {
@@ -194,7 +195,7 @@
   display: flex;
   -ms-flex-line-pack: end;
       align-content: flex-end;
-  background-image: url(../img/chat.svg);
+  background-image: url(/assets/img/chat.svg);
   background-repeat: no-repeat;
   background-position: center 12px;
   background-size: 40px;
@@ -219,11 +220,11 @@
 }
 
 label[for="personal-chats"]:nth-of-type(2) .all-chats-part {
-  background-image: url(../img/folder.svg);
+  background-image: url(/assets/img/folder.svg);
 }
 
 label[for="personal-chats"]:nth-of-type(1) .all-chats-part {
-  background-image: url(../img/chat.svg);
+  background-image: url(/assets/img/chat.svg);
 }
 
 .chats-spis-scroll input[type="radio"],
@@ -247,11 +248,11 @@ input[type="radio"]:checked + label .all-chats-part {
 }
 
 input[type="radio"]:checked + label .all-chats-part.personal {
-  background-image: url(../img/folderFull.svg);
+  background-image: url(/assets/img/folderFull.svg);
 }
 
 input[type="radio"]:checked + label .all-chats-part.allChats {
-  background-image: url(../img/chatFull.svg);
+  background-image: url(/assets/img/chatFull.svg);
 }
 
 input[type="radio"]:checked + label .all-chats-part span {
@@ -358,7 +359,7 @@ input[type="radio"]:checked + label .all-chats-part span {
 
 .send-time.checked {
   padding-left: 30px;
-  background-image: url(../img/checked.png);
+  background-image: url(/assets/img/checked.png);
   background-position: left center;
   background-repeat: no-repeat;
 }
@@ -491,7 +492,7 @@ label[for="menu-btn"] {
 
 .kupchic-boss {
   cursor: pointer;
-  background-image: url(../img/photo5262783853863480107.png);
+  background-image: unset;
 }
 
 .saved-ms {
@@ -502,7 +503,7 @@ label[for="menu-btn"] {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 24px;
-  background-image: url(../img/bookmark.svg);
+  background-image: url(/assets/img/bookmark.svg);
 }
 
 .menu-header {
@@ -534,7 +535,6 @@ label[for="menu-btn"] {
       -ms-flex-align: start;
           align-items: flex-start;
 }
-
 .boss-info {
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -579,19 +579,19 @@ label[for="menu-btn"] {
 }
 
 .paper-clip {
-  background-image: url(../img/clip.svg);
+  background-image: url(/assets/img/clip.svg);
 }
 
 .emoji {
-  background-image: url(../img/smile.svg);
+  background-image: url(/assets/img/smile.svg);
 }
 
 .voice {
-  background-image: url(../img/micro.svg);
+  background-image: url(/assets/img/micro.svg);
 }
 
 #dropdown-profiles-btn {
-  background-image: url(../img/down.svg);
+  background-image: url(/assets/img/down.svg);
   width: 30px;
   height: 30px;
   background-size: cover;
@@ -648,19 +648,23 @@ label[for="menu-btn"] {
   border-radius: 50%;
   right: -10px;
   bottom: -10px;
-  background-image: url(../img/tick.svg);
+  background-image: url(/assets/img/tick.svg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 24px;
 }
 /*# sourceMappingURL=style.css.map */
 
+
 @media (max-width: 745px) {
+	
 	.mobile-menu-wrp {
-	  display: block;
+	   width: 100vw;
+	   display: block;
 	}
 	
 	.mobile-menu {
-	  left: 0;
+	   left: 0;
+	   width: 100vw;
 	}
 }

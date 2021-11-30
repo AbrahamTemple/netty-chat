@@ -20,7 +20,7 @@
 	width: 18px;
 	height: 12px;
 	margin: 20px 18px 10px;
-	background-image: url("../img/burger-menu.png");
+	background-image: url(/assets/img/burger-menu.png);
 	background-repeat: no-repeat;
 	cursor: pointer;
 }
@@ -99,7 +99,7 @@
 }
 
 @media (max-width: 745px) {
-	/* .dialogs {
-		display: none;
-	} */
+	.dialogs {
+		width: 100vw;
+	}
 }

@@ -1,7 +1,6 @@
 import BaseIndex from '@/components/user/base/index.vue'
 import BaseRegister from '@/components/user/base/register.vue'
 import BaseLogin from '@/components/user/base/login.vue'
-import BaseProfile from '@/components/user/base/profile.vue'
 
 
 export default [
@@ -23,13 +22,5 @@ export default [
         path: 'base/login',
         name: 'BaseLogin',
         component: BaseLogin
-    },
-    {
-        path: 'base/profile',
-        name: 'BaseProfile',
-        component: BaseProfile,
-        meta: {
-            auth: true
-        }
     },
 ]

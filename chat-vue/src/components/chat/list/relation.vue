@@ -5,8 +5,11 @@
 		  <van-cell 
 			v-for="(guy,index) in list" :key="index"
 			:icon="guy.mosUser.avatar" 
-			:id="guy.friendid" 
-			:title="guy.mosUser.nickname"/>
+			:id="guy.friendid"
+			:title="guy.mosUser.nickname"
+			:class="{cell:true}">
+			
+		  </van-cell>
 	  <!-- </div> -->
 	</van-index-bar>
 </template>
@@ -17,6 +20,7 @@
   import {reactive} from 'vue';
   export default {
     name: "relation",
+	emits: ["toggle"],
 	data() {
 	    return {
 	      indexList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -60,6 +64,10 @@
 	
 		}
 	},
+	created(){
+		//触发父组件的事件 在登录界面不需要显示底部
+    	this.$emit("toggle", true);
+	},
 	mounted(){
 		let hash = md5(this.$store.state.auth.hash)
 		//如果store缓存的list.data是对象
@@ -79,3 +87,10 @@
 	}
   }
 </script>
+
+<style scoped>
+	.cell{
+		font-size: 1.5rem;
+		line-height: 3rem;
+	}
+</style>

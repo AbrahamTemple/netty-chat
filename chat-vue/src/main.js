@@ -35,38 +35,45 @@ router.beforeEach(async (to, from, next) => {
 
         //判断是否有无cookie 
         var LoginUser = app.$cookies.get('LoginUser')
+		
+		//判断是否有无token
+		var token = app.$store.state.auth.token
 
         //没有登录就跳转到登录界面
-        if(!LoginUser)
+        if(!LoginUser || Object.is(token,''))
         {
             next('/user/base/login')
             return
-        }
+        }		
+		//接下来验证这个id是否存在
 
-        //获取id
-        var userid = LoginUser.id ? LoginUser.id : 0;
+  //       //获取id
+  //       var userid = LoginUser.id ? LoginUser.id : 0;
 
-        //接口请求
-        var result = await api.check({userid:userid})
+  //       //接口请求
+  //       var result = await api.check({uid:userid})
 
-        if(result.code == 0)
-        {
-            //验证失败
-            app.$cookies.remove('LoginUser')
+  //       if(result.status !== 200)
+  //       {
+  //           //验证失败
+  //           app.$cookies.remove('LoginUser')
 
-            //跳转了
-            next('/user/base/login')
-            return
-        }else
-        {
-            //验证成功
-            //覆盖cookie
-            app.$cookies.set('LoginUser', result.data)
+  //           //跳转了
+  //           next('/user/base/login')
+  //           return
+  //       }
+		// else
+  //       {
+  //           //验证成功
+  //           //覆盖cookie
+  //           app.$cookies.set('LoginUser', result.data)
             
-            //让他去到该去的路由
-            next()
-        }
-    }else
+  //           //让他去到该去的路由
+  //           next()
+  //       }
+		next()
+    }
+	else
     {
         //不需要登录,直接跳转路由
         next()
