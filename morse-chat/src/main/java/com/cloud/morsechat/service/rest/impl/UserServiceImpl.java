@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,11 +29,11 @@ import java.util.Map;
 public class UserServiceImpl extends GlobalKey implements UserService {
 
     @Resource
-    IUserService IUserService;
+    IUserService iUserService;
 
     @Override
     public RestResponse<Map<String, String>> login(String username, String password) {
-        MosUser user = IUserService.getByName(username);
+        MosUser user = iUserService.getByName(username);
 
         if(user != null){
 
@@ -81,12 +82,32 @@ public class UserServiceImpl extends GlobalKey implements UserService {
 
     @Override
     public RestResponse<Map<String, String>> friend(String hash) {
-        MosUser user = IUserService.getByHash(hash);
+        MosUser user = iUserService.getByHash(hash);
         if(user != null){
             Map<String, String> data = new HashMap<>();
             data.put(ID,user.getId().toString());
             data.put(NICKNAME,user.getNickname());
-            data.put(HASH, user.getHash());
+            data.put(AVATAR, user.getAvatar());
+            data.put(SEX,user.getSex()==1?"男生":user.getSex()==2?"女生":"私密");
+            data.put(CONTENT, user.getContent());
+
+            return new RestResponse<>(HttpStatus.OK.value(), HttpStatus.OK.toString(),data);
+        }
+        return new RestResponse<>(HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.toString(),null);
+    }
+
+    @Override
+    public RestResponse<Map<String, String>> strange(String nickname) {
+        List<MosUser> users = iUserService.getByNickname(nickname);
+        if(users.size()>0){
+            Map<String, String> data = new HashMap<>();
+            users.forEach(user->{
+                data.put(ID,user.getId().toString());
+                data.put(NICKNAME,user.getNickname());
+                data.put(AVATAR, user.getAvatar());
+                data.put(SEX,user.getSex()==1?"男生":user.getSex()==2?"女生":"私密");
+                data.put(CONTENT, user.getContent());
+            });
             return new RestResponse<>(HttpStatus.OK.value(), HttpStatus.OK.toString(),data);
         }
         return new RestResponse<>(HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.toString(),null);

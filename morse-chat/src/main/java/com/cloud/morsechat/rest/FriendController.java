@@ -32,7 +32,12 @@ public class FriendController {
 
     @Permission
     @GetMapping(value = "list/{uid}")
-    public RestResponse<List<MosFriend>> list(@PathVariable Long uid, HttpSession sess){
-        return friendService.list(uid,sess);
+    public RestResponse<List<MosFriend>> list(@PathVariable Long uid){
+        return friendService.list(uid);
+    }
+
+    @PostMapping(value = "save")
+    public RestResponse<MosFriend> save(@RequestBody MosFriend friend){
+        return friendService.save(friend);
     }
 }

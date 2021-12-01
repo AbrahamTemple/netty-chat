@@ -8,7 +8,7 @@
         const addr = "127.0.0.1"; //换成本机网卡ip
         const port = 7000;
         const uri = "ws";
-        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXgiOiLnp4Hlr4YiLCJuaWNrbmFtZSI6IuS6muS8r-aLiee9lSIsImlkIjoiMSIsImF2YXRhciI6Ii9hc3NldHMvaW1nLzYuanBnIiwiZXhwIjoxNjM4Mjk1OTcyLCJoYXNoIjoiMDAwMDBmNTdiYWQwZmJiMDZhMTc2Y2U4ZTU4MjY5NGZmMjdjZjZiMGVjMWQxYzNiODk2Mzk3MDE0ZDc5YTgyZCIsImVtYWlsIjoiYWJyYWhhbUBjbG91ZC5jb20iLCJjb250ZW50Ijoi5LuW5piv5YWI55-l77yM5LuW5piv54W95Yqo6ICF77yM5Y2K55yf5Y2K5YGH77yM5YWF5ruh55-b55u-44CCIiwidXNlcm5hbWUiOiJhYnJhaGFtdiJ9.3iMN63fmeDpBCF0jreCVi2P-g5DR1meOS9wkAigkZIg';
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXgiOiLnlLfnlJ8iLCJuaWNrbmFtZSI6IuadsOWFi-iPsuWwvOWFi-aWryIsImlkIjoiMyIsImF2YXRhciI6Ii9hc3NldHMvaW1nLzUuanBnIiwiZXhwIjoxNjM4MzcxNjQzLCJoYXNoIjoiMDAwY2QxYWRiOWEzYjgxZWU2Zjg0YThmNGI0NjBiM2M4YTE5MmU5OThkMGI5MWNmODIwOWIwMTMyNWU4NGFjIiwiZW1haWwiOiJmdWNqb2tlckBvdXRsb29rLmNvbSIsImNvbnRlbnQiOiLmiJHljp_mnKzku6XkuLrmiJHmmK_kuKrmgrLliafvvIzlkI7mnaXmiJHmiY3lj5HnjrDov5nkuIDliIfpg73mmK_llpzliafjgIIiLCJ1c2VybmFtZSI6Impva2VyIn0.Eghi4VbMfr3UXgF3Lpxt4k9w6yuQGfNGIWl5aY9pQZM';
         //新建socket对象
         window.socket = new WebSocket(`ws://${addr}:${port}/${uri}?token=${token}`);
         //监听netty服务器消息并打印到页面上

@@ -39,4 +39,10 @@ public class UserController {
     public RestResponse<Map<String, String>> friend(@RequestParam String hash){
         return userService.friend(hash);
     }
+
+    @Permission
+    @GetMapping(value = "strange")
+    public RestResponse<Map<String, String>> strange(@RequestParam String nickname){
+        return userService.strange(nickname);
+    }
 }

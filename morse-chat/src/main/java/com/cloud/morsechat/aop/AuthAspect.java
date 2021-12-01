@@ -32,9 +32,6 @@ public class AuthAspect extends GlobalKey {
     @Around("Permiss(permission)")
     public Object PermissionCheck(ProceedingJoinPoint pjp, Permission permission) throws Throwable {
 
-//        Method method = ((MethodSignature) pjp.getSignature()).getMethod(); //获取签名里的方法
-//        Permission myPermission = method.getAnnotation(Permission.class); //获取该方法里的注解
-
 //        String token = new HttpHeaders().getFirst("token"); //根本不起作用
 
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
@@ -60,7 +57,7 @@ public class AuthAspect extends GlobalKey {
 
     @After("Permiss(permission)")
     public void PermissionPass(Permission permission){
-        log.info("权限验证通过");
+//        log.info("权限验证通过");
     }
 
 }

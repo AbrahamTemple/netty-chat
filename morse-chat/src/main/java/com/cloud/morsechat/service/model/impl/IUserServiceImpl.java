@@ -6,6 +6,7 @@ import com.cloud.morsechat.service.model.IUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @version 6.1.8
@@ -33,6 +34,11 @@ public class IUserServiceImpl implements IUserService {
     @Override
     public MosUser getByHash(String hash) {
         return userRepository.findByHash(hash);
+    }
+
+    @Override
+    public List<MosUser> getByNickname(String nickname) {
+        return userRepository.findAllByNicknameLike('%'+nickname+'%');
     }
 
 

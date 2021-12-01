@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface IFriendService extends IService<FriendRepository>{
     List<MosFriend> getWithByUsrId(Long uid);
+    MosFriend save(MosFriend friend);
 }

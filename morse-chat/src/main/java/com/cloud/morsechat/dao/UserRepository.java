@@ -1,5 +1,6 @@
 package com.cloud.morsechat.dao;
 
+import com.cloud.morsechat.entity.model.MosFriend;
 import com.cloud.morsechat.entity.model.MosUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -18,4 +19,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<MosUser,Long>, JpaSpecificationExecutor<MosUser> {
     MosUser findByUsername(String username);
     MosUser findByHash(String hash);
+    List<MosUser> findAllByNicknameLike(String nickname);
 }
