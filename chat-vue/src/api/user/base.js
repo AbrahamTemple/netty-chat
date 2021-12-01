@@ -1,5 +1,5 @@
 //引入封装的请求服务
-import { GET, POST, UPLOAD, PATH, PARAM } from '@/services/request.js'
+import { GET, POST, UPLOAD, PATH } from '@/services/request.js'
 
 //导出接口
 export default {
@@ -25,9 +25,16 @@ export default {
 	  params: data
 	})
   },
+  decorate(data = {})
+  {
+	  return GET({
+	    url: '/user/friend',
+	    params: data
+	  })
+  },
   message(data = {})
   {
-  	return PARAM({
+  	return POST({
   	  url: '/asset/log',
   	  params: data
   	})

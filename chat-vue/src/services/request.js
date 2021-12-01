@@ -76,7 +76,7 @@ axios.interceptors.response.use(
       } else {
         err.message = "连接到服务器失败"
       }
-      console.err(err.message)
+      console.log(err.message)
         return Promise.resolve(err.response)
   }
 )
@@ -142,23 +142,6 @@ let PATH = (data = {}) =>
   })
 }
 
-//路径键值对请求
-let PARAM = (data = {}) =>
-{
-  return new Promise((resolve,reject) => {
-    axios({
-      method: 'get',
-      url:`${data.url}/${data.params.key}/${data.params.value}`,
-	  
-      cancelToken: new CancelToken(c => {
-        cancel = c
-      })
-    }).then(res => {
-      resolve(res)
-    })
-  })
-}
-
 // 文件上传请求
 let UPLOAD = (data = {}) =>
 {
@@ -196,6 +179,5 @@ export {
   GET,
   POST,
   UPLOAD,
-  PATH,
-  PARAM
+  PATH
 }

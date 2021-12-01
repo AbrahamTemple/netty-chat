@@ -231,23 +231,6 @@ export default {
     };
   },
   methods: {
-    async connectWebscoket(myHash, token) {
-      if (!Object.is(myHash, "") && !Object.is(token, "")) {
-        const addr = this.connect.addr;
-        const port = this.connect.port;
-        const uri = this.connect.uri;
-        const token = this.$store.state.auth.token;
-        //新建Websocket对象
-        this.socket = new WebSocket(
-          `ws://${addr}:${port}/${uri}?token=${token}`
-        );
-
-        this.socket.onopen = this.open;
-        this.socket.onerror = this.error;
-
-        this.socket.onmessage = this.getMessage;
-      }
-    },
     goBack: function () {
       this.$router.go(-1);
       //如果Websocket打开，退出时必须关闭
@@ -263,7 +246,7 @@ export default {
     },
     error: function () {
       console.log("连接错误");
-	  this.$router.go(-1);
+      this.goBack();
     },
     getMessage: function (even) {
       //获取消息
@@ -290,7 +273,7 @@ export default {
       //获取并发送消息
       console.log(this.$refs.message.value);
       this.send(this.$refs.message.value);
-	  this.$refs.message.value = "";
+      this.$refs.message.value = "";
     },
     submitOff: function (e) {
       //阻止表单提交
@@ -303,7 +286,19 @@ export default {
     //获取我的hsah与好友hash
     this.friendHash = this.$route.params.hash;
     console.log(this.friendHash);
-    this.connectWebscoket(this.$store.state.auth.hash,this.$store.state.auth.token);
+    if (typeof this.$store.state.ws.socket != "object") {
+      this.goBack();
+    }
+  },
+  mounted() {
+    this.socket = this.$store.state.ws.socket;
+    this.socket.onopen = this.open;
+    this.socket.onerror = this.error;
+
+    this.socket.onmessage = this.getMessage;
+  },
+  destroyed() {
+    this.goBack();
   },
 };
 </script>

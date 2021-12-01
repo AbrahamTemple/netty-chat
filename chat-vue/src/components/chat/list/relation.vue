@@ -1,17 +1,38 @@
 <template>
-	<van-index-bar :index-list="indexList" highlight-color="#67C23A">
+	<!-- <van-index-bar :index-list="indexList" highlight-color="#67C23A"> -->
 	  <!-- <div v-for="(v,i) in indexList" :key="i"> -->
-		  <van-index-anchor index="1">好友列表</van-index-anchor>
-		  <van-cell 
+		  <!-- <van-index-anchor index="1">好友列表</van-index-anchor> -->
+		 
+		  
+<!-- 	  </div> -->
+	<!-- </van-index-bar> -->
+	<div class="limiter">
+		<van-cell
 			v-for="(guy,index) in list" :key="index"
-			:icon="guy.mosUser.avatar" 
 			:id="guy.friendid"
+			:icon="guy.mosUser.avatar"
 			:title="guy.mosUser.nickname"
-			:class="{cell:true}">
-			
-		  </van-cell>
-	  <!-- </div> -->
-	</van-index-bar>
+			is-link size="large">
+		</van-cell>
+		<!-- <van-cell 
+			v-for="(guy,index) in list" :key="index"
+			:id="guy.friendid"
+			:title-class="{cell:true}"
+			:value="guy.mosUser.nickname" 
+			is-link size="large">
+		  <view slot="title">
+		    <view class="van-cell-text">{{guy.mosUser.nickname}}</view>
+		    <van-tag type="danger">标签</van-tag>
+		  </view>
+		  <van-image
+		    width="1.5rem"
+		    height="1.5rem"
+		    fit="contain"
+		    slot="icon"
+		    :src="guy.mosUser.avatar"
+		  />
+		</van-cell> -->
+	</div>
 </template>
 
 <!-- https://youzan.github.io/vant/#/zh-CN/index-bar -->
@@ -89,8 +110,11 @@
 </script>
 
 <style scoped>
-	.cell{
+	@import url('/public/assets/css/login/util.css');
+	@import url('/public/assets/css/login/main.css');
+/* 	.cell{
 		font-size: 1.5rem;
 		line-height: 3rem;
-	}
+		width: 100vw;
+	} */
 </style>

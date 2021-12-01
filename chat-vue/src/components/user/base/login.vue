@@ -110,7 +110,7 @@
                     //失败
                     this.$notify({
                         type: 'warning',
-                        message: result.msg,
+                        message: '登录失败',
                         duration: 1500
                     })
                     return
@@ -132,7 +132,7 @@
 				
                 this.$notify({
                     type: 'success',
-                    message: result.msg,
+                    message: '登陆成功',
                     duration: 1000,
                     onClose: () => {
 						let hash = md5(this.$store.state.auth.hash)
