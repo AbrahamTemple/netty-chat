@@ -192,13 +192,15 @@ export default {
       this.$store.state.auth.hash,
       this.$store.state.auth.token
     );
-    this.$store.commit('refreshLogs',this.logs)
+    if(typeof this.$store.state.ws.logs == 'string'){
+      this.$store.commit('refreshLogs',this.logs)
+    }
   },
   mounted() {
 	//读取缓存的dialogs列表
-	if(typeof this.$store.state.ws.logs != 'string'){
-		this.logs = this.$store.state.ws.logs
-	}
+    if(typeof this.$store.state.ws.logs != 'string'){
+      this.logs = this.$store.state.ws.logs
+    }
     //如果标记的位置不为空，赋值
     if (typeof this.$store.state.list.active != "string") {
       this.select = this.$store.state.list.active;

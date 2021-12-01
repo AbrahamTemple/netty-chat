@@ -32,6 +32,13 @@ export default {
 	    params: data
 	  })
   },
+  save(data = {})
+  {
+  	return POST({
+  	  url: '/asset/save',
+  	  params: data
+  	})
+  },
   message(data = {})
   {
   	return POST({
@@ -39,10 +46,15 @@ export default {
   	  params: data
   	})
   },
-  check(data = {})
-  {
+  social(data = {}){
     return POST({
-      url: '/user/base/check',
+  	  url: '/with/save',
+  	  params: data
+  	})
+  },
+  strange(data = {}) {
+    return GET({
+      url: '/user/strange',
       params: data
     })
   },

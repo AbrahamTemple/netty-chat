@@ -1,4 +1,5 @@
 import WrapperIndex from '@/components/chat/base/wrapper.vue'
+import SocialIndex from '@/components/chat/base/social.vue'
 
 export default [
 	{
@@ -8,5 +9,10 @@ export default [
 	    meta: {
 	        auth: true
 	    }
+	},
+	{
+	    path:'base/social',
+	    name:'SocialIndex',
+	    component:SocialIndex,
 	},
 ]

@@ -41,10 +41,10 @@
     data(){
       return{
         login: {
-			avatar: '/assets/images/avatar-01.jpg',
-			nickname: '现在去请登录',
-			email: 'Your Email'
-		}
+          avatar: '/assets/images/avatar-01.jpg',
+          nickname: '现在去请登录',
+          email: 'Your Email'
+		    }
       }
     },
     mounted(){
