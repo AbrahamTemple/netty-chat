@@ -228,9 +228,55 @@ export default {
         port: 7000,
         uri: "ws",
       },
+      logs: []
     };
   },
   methods: {
+    async decorate(value,message) {
+      var result = await this.$api.decorate(value);
+      await this.waitResult(result,message)
+    },
+	  async waitResult(result,message){
+		  if (result.status != 200) {
+		  //失败
+		  this.$notify({
+		      type: 'warning',
+		      message: '错误消息',
+		      duration: 500
+		  })
+		  return
+		}
+		
+		//成功
+		this.$notify({
+		    type: 'success',
+		    message: '新的消息',
+		    duration: 500,
+		    onClose: () => {
+				let log = eval({
+				  hash: message.hash, //
+				  avatar: result.data.avatar,
+				  nickname: result.data.nickname,
+				  content: message.content,
+				  createTime: message.createTime, //
+				});
+        for(var i in this.logs){
+          if(Object.is(this.logs[i].hash,log.hash)){
+						this.logs[i] = log
+            return
+					}else{
+						//到了最后都没有在dialogs找到这位朋友，证明它不存在dialogs
+						if(Object.is(this.logs.length,(Number(i)+1))){
+							//对象追加
+							this.logs.push(log);
+							this.$store.commit('refreshLogs',this.logs)
+              return
+						}
+					}
+        }
+      }
+		})
+	  },
     goBack: function () {
       this.$router.go(-1);
       //如果Websocket打开，退出时必须关闭
@@ -241,12 +287,40 @@ export default {
         this.socket.onclose = this.close;
       }
     },
+    refresh: function(){
+      for(var i in this.logs){
+        if(Object.is(this.logs[i].hash,this.friendHash)){
+          console.log(this.logs[i]);
+        }
+      }
+    },
+    async connectWebscoket(myHash, token) {
+      if (!Object.is(myHash, "") && !Object.is(token, "")) {
+        const addr = this.connect.addr;
+        const port = this.connect.port;
+        const uri = this.connect.uri;
+        const token = this.$store.state.auth.token;
+        //新建Websocket对象，并缓存到store
+
+        this.socket = new WebSocket(
+          `ws://${addr}:${port}/${uri}?token=${token}`
+        );
+
+        this.$store.commit("initSocket", this.socket);
+
+        this.socket.onopen = this.open;
+        this.socket.onerror = this.error;
+
+        this.socket.onmessage = this.getMessage;
+      }
+    },
     open: function () {
       console.log("socket连接成功");
     },
     error: function () {
       console.log("连接错误");
       this.goBack();
+      this.decorate({hash:data.hash},data)
     },
     getMessage: function (even) {
       //获取消息
@@ -287,10 +361,17 @@ export default {
     this.friendHash = this.$route.params.hash;
     console.log(this.friendHash);
     if (typeof this.$store.state.ws.socket != "object") {
-      this.goBack();
+      this.connectWebscoket(
+        this.$store.state.auth.hash,
+        this.$store.state.auth.token
+      );
+    }
+    if (typeof this.$store.state.ws.logs == "object") {
+      this.logs = this.$store.state.ws.logs
     }
   },
   mounted() {
+    this.refresh();
     this.socket = this.$store.state.ws.socket;
     this.socket.onopen = this.open;
     this.socket.onerror = this.error;

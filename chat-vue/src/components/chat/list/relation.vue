@@ -7,13 +7,16 @@
 <!-- 	  </div> -->
 	<!-- </van-index-bar> -->
 	<div class="limiter">
-		<van-cell
-			v-for="(guy,index) in list" :key="index"
-			:id="guy.friendid"
-			:icon="guy.mosUser.avatar"
-			:title="guy.mosUser.nickname"
-			is-link size="large">
-		</van-cell>
+		<div v-for="(guy,index) in list" :key="index">
+			<router-link :to="{name:'WrapperIndex', params:{hash:guy.mosUser.hash}}">
+			<van-cell
+				:id="guy.friendid"
+				:icon="guy.mosUser.avatar"
+				:title="guy.mosUser.nickname"
+				is-link size="large">
+			</van-cell>
+			</router-link>
+		</div>
 		<!-- <van-cell 
 			v-for="(guy,index) in list" :key="index"
 			:id="guy.friendid"

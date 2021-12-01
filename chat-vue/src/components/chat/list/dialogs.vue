@@ -64,21 +64,21 @@ export default {
         //     "Photo, Знаменитый норвежский полярный исследователь Руал Амундсен и две его приемные дочери: слева одиннадцатилетняя Камилла Карпендель — родная дочь австралийского торговца Чарли Карпендель, осевшего на Чукотке в 1904 году, и справа четырехлетняя Каконита Амундсен — дочь чукчи Какота, уроженца чукотского Уэлена, участника экспедиции. Этих девочек полярник увез из Чукотки в Норвегию в 1921 году.", //
         //   createTime: "22:04", //
         // },
+        // {
+        //   hash: "000cd1adb9a3b81ee6f84a8f4b460b3c8a192e998d0b91cf8209b01325e84ac", //
+        //   avatar: "/assets/img/6.jpg",
+        //   nickname: "Инсайдеры Windows 10",
+        //   content:
+        //     "You: Тут был участник Stefan *** или как-то так. Видимо, его тут больше нет, а мне вдруг приспичило спросить, действительно ли его зовут Стефан. ¯_(ツ)_/¯", //
+        //   createTime: "21:03", //
+        // },
         {
-          hash: "000cd1adb9a3b81ee6f84a8f4b460b3c8a192e998d0b91cf8209b01325e84ac", //
-          avatar: "/assets/img/6.jpg",
-          nickname: "Инсайдеры Windows 10",
-          content:
-            "You: Тут был участник Stefan *** или как-то так. Видимо, его тут больше нет, а мне вдруг приспичило спросить, действительно ли его зовут Стефан. ¯_(ツ)_/¯", //
-          createTime: "21:03", //
-        },
-        {
-          hash: "00000f57bad0fbb06a176ce8e582694ff27cf6b0ec1d1c3b896397014d79a82d", //
+          hash: this.$store.state.auth.hash,
           avatar: "/assets/img/7.jpg",
-          nickname: "Telegram",
+          nickname: "Mos Chat",
           content:
-            "Актуальная информация о борьбе с COVID-19 в России доступна в канале https://t.me/stopcoronavirusrussia.", //
-          createTime: "TUE", //
+            "关联系统通知提醒助手",
+          createTime: "TUE",
         },
       ],
       socket: "", //Websocket对象
@@ -95,8 +95,8 @@ export default {
       var result = await this.$api.decorate(value);
       await this.waitResult(result,message)
     },
-	async waitResult(result,message){
-		if (result.status != 200) {
+	  async waitResult(result,message){
+		  if (result.status != 200) {
 		  //失败
 		  this.$notify({
 		      type: 'warning',
@@ -114,26 +114,26 @@ export default {
 		    onClose: () => {
 				let log = eval({
 				  hash: message.hash, //
-				  avatar: "/assets/img/6.jpg",
+				  avatar: result.data.avatar,
 				  nickname: result.data.nickname,
 				  content: message.content,
 				  createTime: message.createTime, //
 				});
-				var _this = this
-				Reflect.ownKeys(_this.logs).forEach(function(i){
-					if(Object.is(_this.logs[i].hash,log.hash)){
-						_this.logs[i] = log
+        for(var i in this.logs){
+          if(Object.is(this.logs[i].hash,log.hash)){
+						this.logs[i] = log
+            return
 					}else{
 						//到了最后都没有在dialogs找到这位朋友，证明它不存在dialogs
-						if(Object.is(i,'length')){
+						if(Object.is(this.logs.length,(Number(i)+1))){
 							//对象追加
-							_this.logs.push(log);
-							_this.$store.commit('refreshLogs',_this.logs)
+							this.logs.push(log);
+							this.$store.commit('refreshLogs',this.logs)
+              return
 						}
 					}
-				})
-				
-		    }
+        }
+      }
 		})
 	},
     async connectWebscoket(myHash, token) {
@@ -166,7 +166,7 @@ export default {
       //获取消息
       let data = JSON.parse(event.data);
       console.log(data);
-	  // this.decorate({hash:data.hash},data)
+	    this.decorate({hash:data.hash},data)
     },
     close: function () {
       console.log("socket已经关闭");
@@ -192,7 +192,7 @@ export default {
       this.$store.state.auth.hash,
       this.$store.state.auth.token
     );
-	
+    this.$store.commit('refreshLogs',this.logs)
   },
   mounted() {
 	//读取缓存的dialogs列表
