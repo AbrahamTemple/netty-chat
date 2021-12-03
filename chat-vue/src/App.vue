@@ -7,8 +7,8 @@
 </template>
 
 <script>  
-  import tab from './components/common/tab.vue'
-  // import tab from './components/common/tabbar.vue'
+  // import tab from './components/common/tab.vue'
+  import tab from './components/common/tabbar.vue'
   export default {
     data()
     {

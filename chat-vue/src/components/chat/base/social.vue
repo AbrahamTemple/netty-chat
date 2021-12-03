@@ -12,7 +12,7 @@
         is-edit
         show-set-default
         :contact-info="editingContact"
-        set-default-label="设为默认联系人"
+        set-default-label="查到后申请添加"
         @save="onSave"
         @delete="onDelete"
         />

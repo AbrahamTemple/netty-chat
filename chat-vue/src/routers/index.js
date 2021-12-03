@@ -2,7 +2,7 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 
 // 设置一个默认首页
-import chat from '@/components/chat/list/dialogs.vue'
+import chat from '@/components/user/base/login.vue'
 
 // 引入每个目录下面的index.js文件
 const ModulesFile = import.meta.globEager("./*/index.js")

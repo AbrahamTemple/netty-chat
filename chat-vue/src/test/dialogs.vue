@@ -120,21 +120,21 @@ export default {
 				  createTime: message.createTime, //
 				});
         for(var i in this.logs){
-			if(Object.is(this.logs[i].hash,log.hash)){
-				this.logs[i] = log
-				this.$store.commit('pushWapper',{hash:message.hash,data:log});
-				return
-			}else{
-				//到了最后都没有在dialogs找到这位朋友，证明它不存在dialogs
-				if(Object.is(this.logs.length,(Number(i)+1))){
-				//对象追加
-					this.logs.push(log);
-					this.$store.commit('refreshLogs',this.logs)
-					this.$store.commit('calculateVal',this.logs.length)
-					this.$store.commit('pushWapper',{hash:message.hash,data:log});
-					return
-				}
-			}
+          if(Object.is(this.logs[i].hash,log.hash)){
+						this.logs[i] = log
+            console.log(this.logs);
+            // this.$store.commit('pushWapper',{hash:message.hash,data:log});
+            return
+					}else{
+						//到了最后都没有在dialogs找到这位朋友，证明它不存在dialogs
+						if(Object.is(this.logs.length,(Number(i)+1))){
+							//对象追加
+							this.$store.commit('refreshLogs',this.logs)
+              this.$store.commit('calculateVal',this.logs.length)
+              // this.$store.commit('pushWapper',{hash:message.hash,data:log});
+              return
+						}
+					}
         }
       }
 		})
