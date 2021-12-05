@@ -145,12 +145,20 @@ export default {
         const port = this.connect.port;
         const uri = this.connect.uri;
         const token = this.$store.state.auth.token;
+
+        //判断当前页面请求是http还是https
+        var ishttps = 'https:' == document.location.protocol ? true : false;
+
+        if(ishttps){
+           this.socket = new WebSocket(
+            `wss://${addr}:${port}/${uri}?token=${token}` //wss是附加加密证书的ws协议
+           );
+        }else{
+           this.socket = new WebSocket(
+            `ws://${addr}:${port}/${uri}?token=${token}`
+           );
+        }
         //新建Websocket对象，并缓存到store
-
-        this.socket = new WebSocket(
-          `ws://${addr}:${port}/${uri}?token=${token}`
-        );
-
         this.$store.commit("initSocket", this.socket);
 
         this.socket.onopen = this.open;

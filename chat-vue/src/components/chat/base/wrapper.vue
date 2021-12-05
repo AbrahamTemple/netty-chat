@@ -42,10 +42,13 @@
           >
         </div>
 
-        <div class="chat-logs__messages-wrapper"
-          v-for="(wrp, index) in wapper" :key="index">
+        <div
+          class="chat-logs__messages-wrapper"
+          v-for="(wrp, index) in wapper"
+          :key="index"
+        >
           <img class="chat-logs__avatar" :src="wrp.avatar" />
-        
+
           <div class="chat-logs__message-group">
             <!-- <article id="message1" class="chat-logs__message">
               <h3
@@ -68,24 +71,24 @@
                 <time class="chat-logs__message-time">19:35</time>
               </div>
             </article> -->
-        
+
             <article
               id="message2"
               class="chat-logs__message chat-logs__message_last_in_group"
             >
               <h3 class="chat-logs__sender chat-logs__sender_hidden">
-                <a href="#">{{wrp.nickname}}</a>
+                <a href="#">{{ wrp.nickname }}</a>
               </h3>
-        
+
               <p class="chat-logs__message-text">
-                {{wrp.content}}
+                {{ wrp.content }}
               </p>
-        
+
               <span class="chat-logs__reply-button">Reply</span>
-        
+
               <div class="chat-logs__details">
                 <!-- <time class="chat-logs__message-time">{{wrp.createTime}}</time> -->
-				<time class="chat-logs__message-time">19:35</time>
+                <time class="chat-logs__message-time">6:18</time>
               </div>
             </article>
           </div>
@@ -96,9 +99,9 @@
             ><a href="#" class="chat-logs__user-link">Diana Mar</a> joined the
             group via invite link</span
           >
-        </div>
+        </div> -->
 
-        <div class="chat-logs__messages-wrapper">
+        <!-- <div class="chat-logs__messages-wrapper">
           <img class="chat-logs__avatar" src="/assets/img/3.jpg" />
 
           <div class="chat-logs__message-group">
@@ -136,9 +139,9 @@
               </div>
             </article>
           </div>
-        </div>
+        </div> -->
 
-        <div class="chat-logs__messages-wrapper">
+        <!-- <div class="chat-logs__messages-wrapper">
           <img class="chat-logs__avatar" src="/assets/img/4.jpg" />
 
           <article class="chat-logs__message chat-logs__message_with_sticker">
@@ -154,20 +157,18 @@
               <time class="chat-logs__message-time">19:57</time>
             </div>
           </article>
-        </div>
+        </div> -->
 
-        <div class="chat-logs__messages-wrapper">
-          <img class="chat-logs__avatar" src="/assets/img/5.jpg" />
+        <div class="chat-logs__messages-wrapper" v-for="(wrp, index) in myWapper" :key="index">
+          <img class="chat-logs__avatar" :src="wrp.loginUser.avatar" />
 
           <div class="chat-logs__message-group chat-logs__message-group_my">
             <article class="chat-logs__message chat-logs__message_my">
-              <h3 class="chat-logs__sender chat-logs__sender_hidden">me</h3>
+              <h3 class="chat-logs__sender chat-logs__sender_hidden">{{wrp.loginUser.nickname}}</h3>
 
               <div>
                 <p class="chat-logs__message-text">
-                  Тут был участник Stefan *** или как-то так. Видимо, его тут
-                  больше нет, а мне вдруг приспичило спросить, действительно ли
-                  его зовут Стефан. ¯\_(ツ)_/¯
+                  {{wrp.content}}
                 </p>
               </div>
 
@@ -180,7 +181,7 @@
               </div>
             </article>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
 
@@ -223,6 +224,7 @@ export default {
   emits: ["toggle"],
   data() {
     return {
+      myWapper: [],
       friendHash: "",
       socket: "", //Websocket对象
       connect: {
@@ -230,59 +232,74 @@ export default {
         port: 7000,
         uri: "ws",
       },
-      logs: [],
-      wapper: []
+      logs: [
+        {
+          hash: this.$store.state.auth.hash,
+          avatar: "/assets/img/7.jpg",
+          nickname: "Mos Chat",
+          content:
+            "关联系统通知提醒助手",
+          createTime: "TUE",
+        }
+      ],
+      wapper: [],
     };
   },
   methods: {
-    async decorate(value,message) {
+    async decorate(value, message) {
       var result = await this.$api.decorate(value);
-      await this.waitResult(result,message)
+      await this.waitResult(result, message);
     },
-	  async waitResult(result,message){
-		  if (result.status != 200) {
-		  //失败
-		  this.$notify({
-		      type: 'warning',
-		      message: '错误消息',
-		      duration: 500
-		  })
-		  return
-		}
-		
-		//成功
-		this.$notify({
-		    type: 'success',
-		    message: '新的消息',
-		    duration: 500,
-		    onClose: () => {
-				let log = eval({
-				  hash: message.hash, //
-				  avatar: result.data.avatar,
-				  nickname: result.data.nickname,
-				  content: message.content,
-				  createTime: message.createTime, //
-				});
-			for(var i in this.logs){
-				if(Object.is(this.logs[i].hash,log.hash)){
-					this.logs[i] = log
-					this.$store.commit('pushWapper',{hash:this.friendHash,data:log});
-					return
-				}else{
-					//到了最后都没有在dialogs找到这位朋友，证明它不存在dialogs
-					if(Object.is(this.logs.length,(Number(i)+1))){
-						//对象追加
-						this.logs.push(log);
-						this.$store.commit('refreshLogs',this.logs)
-						this.$store.commit('calculateVal',this.logs.length)
-						this.$store.commit('pushWapper',{hash:this.friendHash,data:log});
-					return
-					}
-				}
-			}
-		}
-		})
-	  },
+    async waitResult(result, message) {
+      if (result == undefined || result.status != 200) {
+        //失败
+        this.$notify({
+          type: "warning",
+          message: "错误消息",
+          duration: 500,
+        });
+        return;
+      }
+
+      //成功
+      this.$notify({
+        type: "success",
+        message: "新的消息",
+        duration: 500,
+        onClose: () => {
+          let log = eval({
+            hash: message.hash, //
+            avatar: result.data.avatar,
+            nickname: result.data.nickname,
+            content: message.content,
+            createTime: message.createTime, //
+          });
+          for (var i in this.logs) {
+            if (Object.is(this.logs[i].hash, log.hash)) {
+              this.logs[i] = log;
+              this.$store.commit("pushWapper", {
+                hash: this.friendHash,
+                data: log,
+              });
+              return;
+            } else {
+              //到了最后都没有在dialogs找到这位朋友，证明它不存在dialogs
+              if (Object.is(this.logs.length, Number(i) + 1)) {
+                //对象追加
+                this.logs.push(log);
+                this.$store.commit("refreshLogs", this.logs);
+                this.$store.commit("calculateVal", this.logs.length);
+                this.$store.commit("pushWapper", {
+                  hash: this.friendHash,
+                  data: log,
+                });
+                return;
+              }
+            }
+          }
+        },
+      });
+    },
     goBack: function () {
       this.$router.go(-1);
       //如果Websocket打开，退出时必须关闭
@@ -293,9 +310,9 @@ export default {
         this.socket.onclose = this.close;
       }
     },
-    refresh: function(){
-      for(var i in this.logs){
-        if(Object.is(this.logs[i].hash,this.friendHash)){
+    refresh: function () {
+      for (var i in this.logs) {
+        if (Object.is(this.logs[i].hash, this.friendHash)) {
           console.log(this.logs[i]);
         }
       }
@@ -306,12 +323,20 @@ export default {
         const port = this.connect.port;
         const uri = this.connect.uri;
         const token = this.$store.state.auth.token;
+
+        //判断当前页面请求是http还是https
+        var ishttps = "https:" == document.location.protocol ? true : false;
+
+        if (ishttps) {
+          this.socket = new WebSocket(
+            `wss://${addr}:${port}/${uri}?token=${token}`
+          );
+        } else {
+          this.socket = new WebSocket(
+            `ws://${addr}:${port}/${uri}?token=${token}`
+          );
+        }
         //新建Websocket对象，并缓存到store
-
-        this.socket = new WebSocket(
-          `ws://${addr}:${port}/${uri}?token=${token}`
-        );
-
         this.$store.commit("initSocket", this.socket);
 
         this.socket.onopen = this.open;
@@ -326,13 +351,13 @@ export default {
     error: function () {
       console.log("连接错误");
       this.goBack();
-      this.decorate({hash:data.hash},data)
+      this.decorate({ hash: data.hash }, data);
     },
     getMessage: function (even) {
       //获取消息
       let data = JSON.parse(event.data);
       console.log(data);
-	  this.decorate({hash:data.hash},data)
+      this.decorate({ hash: data.hash }, data);
     },
     send: function (message) {
       let data = eval({
@@ -346,6 +371,8 @@ export default {
       if (this.socket.readyState === 1) {
         this.socket.send(JSON.stringify(data));
       }
+      data['loginUser'] = this.$cookies.get('LoginUser');
+      this.myWapper.push(data);
     },
     close: function () {
       console.log("socket已经关闭");
@@ -361,26 +388,25 @@ export default {
       e.preventDefault();
     },
   },
-  computed:{
-	  WapperVal(){
-	  	return this.$store.state.ws.wapper[this.friendHash]
-	  }
+  computed: {
+    WapperVal() {
+      return this.$store.state.ws.wapper[this.friendHash];
+    },
   },
-  watch:{
-	  WapperVal(newVal,oldVal){
-	  	this.wapper = newVal; //监听计算属性
-	  }
+  watch: {
+    WapperVal(newVal, oldVal) {
+      this.wapper = newVal; //监听计算属性
+    },
   },
   created() {
     //触发父组件的事件 在登录界面不需要显示底部
     this.$emit("toggle", false);
     //获取我的hsah与好友hash
     this.friendHash = this.$route.params.hash;
-	if(this.$store.state.ws.wapper[this.friendHash] != undefined){
-	  this.wapper = this.$store.state.ws.wapper[this.friendHash]
-	}
-	console.log('当前好友缓存的消息列表：')
-	console.log(this.$store.state.ws.wapper[this.friendHash])
+    if (this.$store.state.ws.wapper[this.friendHash] != undefined) {
+      this.wapper = this.$store.state.ws.wapper[this.friendHash];
+    }
+    console.log("当前好友缓存的消息列表：");
     if (typeof this.$store.state.ws.socket != "object") {
       this.connectWebscoket(
         this.$store.state.auth.hash,
@@ -388,7 +414,7 @@ export default {
       );
     }
     if (typeof this.$store.state.ws.logs == "object") {
-      this.logs = this.$store.state.ws.logs
+      this.logs = this.$store.state.ws.logs;
     }
   },
   mounted() {

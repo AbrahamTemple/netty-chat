@@ -93,7 +93,7 @@ export default {
         //失败
         this.$notify({
           type: "warning",
-          message: result.msg,
+          message: "好友加载失败",
           duration: 1500,
         });
         return;
@@ -104,7 +104,7 @@ export default {
       //成功
       this.$notify({
         type: "success",
-        message: result.msg,
+        message: "好友加载完毕",
         duration: 1000,
         onClose: () => {
           //转化为响应式数据
