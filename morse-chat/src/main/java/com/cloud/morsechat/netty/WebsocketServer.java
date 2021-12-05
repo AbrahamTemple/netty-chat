@@ -1,6 +1,7 @@
 package com.cloud.morsechat.netty;
 
 
+import com.cloud.morsechat.util.SslUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -9,8 +10,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.ssl.SslHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.net.ssl.SSLEngine;
 import java.net.InetSocketAddress;
 
 /**
@@ -22,6 +26,12 @@ import java.net.InetSocketAddress;
  */
 @Component
 public class WebsocketServer {
+
+    @Value("${ssl.jks-path}")
+    private String JKSPath;
+
+    private final String TYPE = "JKS";
+    private final String PASSWORD = "3626356";
 
     static final String WEBSOCKET_PATH =  "/ws";
 
@@ -43,6 +53,13 @@ public class WebsocketServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
 
                             ChannelPipeline pipeline = ch.pipeline();
+
+                            // 获取并验证https证书
+                            SSLEngine engine = SslUtil.createSSLContext(TYPE,JKSPath,PASSWORD).createSSLEngine();
+                            System.out.println(engine.isInboundDone());
+                            engine.setUseClientMode(true);
+                            engine.setNeedClientAuth(false);
+                            pipeline.addLast(new SslHandler(engine));
 
                             pipeline.addLast(new HttpServerCodec());
 
