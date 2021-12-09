@@ -1,6 +1,6 @@
 <template>
   <aside class="dialogs">
-    <h2 class="visually-hidden">Диалоги</h2>
+    <h2 class="visually-hidden">Mos加密通信</h2>
 
     <header class="dialogs__header">
       <button
@@ -52,26 +52,10 @@ export default {
   data() {
     return {
       list: [],
-      /* 
+      /*
 				me -> friend -> { message }
 			 */
       logs: [
-        // {
-        //   hash: "000000d6abb6c484ded1fba40257b8280962473974ac2d319d7038d6928dd2ee", //
-        //   avatar: "/assets/img/1.jpg",
-        //   nickname: "Земля китов",
-        //   content:
-        //     "Photo, Знаменитый норвежский полярный исследователь Руал Амундсен и две его приемные дочери: слева одиннадцатилетняя Камилла Карпендель — родная дочь австралийского торговца Чарли Карпендель, осевшего на Чукотке в 1904 году, и справа четырехлетняя Каконита Амундсен — дочь чукчи Какота, уроженца чукотского Уэлена, участника экспедиции. Этих девочек полярник увез из Чукотки в Норвегию в 1921 году.", //
-        //   createTime: "22:04", //
-        // },
-        // {
-        //   hash: "000cd1adb9a3b81ee6f84a8f4b460b3c8a192e998d0b91cf8209b01325e84ac", //
-        //   avatar: "/assets/img/6.jpg",
-        //   nickname: "Инсайдеры Windows 10",
-        //   content:
-        //     "You: Тут был участник Stefan *** или как-то так. Видимо, его тут больше нет, а мне вдруг приспичило спросить, действительно ли его зовут Стефан. ¯_(ツ)_/¯", //
-        //   createTime: "21:03", //
-        // },
         {
           hash: this.$store.state.auth.hash,
           avatar: "/assets/img/7.jpg",
@@ -105,7 +89,7 @@ export default {
 		  })
 		  return
 		}
-		
+
 		//成功
 		this.$notify({
 		    type: 'success',
@@ -149,14 +133,16 @@ export default {
         //判断当前页面请求是http还是https
         var ishttps = 'https:' == document.location.protocol ? true : false;
 
-        if(ishttps){
-           this.socket = new WebSocket(
-            `wss://${addr}:${port}/${uri}?token=${token}` //wss是附加加密证书的ws协议
-           );
-        }else{
-           this.socket = new WebSocket(
-            `ws://${addr}:${port}/${uri}?token=${token}`
-           );
+        if (ishttps) {
+          this.socket = new WebSocket(
+            // `wss://${addr}:${port}/${uri}?token=${token}`
+            `wss://www.moskid.asia/${uri}?token=${token}`
+          );
+        } else {
+          this.socket = new WebSocket(
+            // `ws://${addr}:${port}/${uri}?token=${token}`
+            `ws://www.moskid.asia/${uri}?token=${token}`
+          );
         }
         //新建Websocket对象，并缓存到store
         this.$store.commit("initSocket", this.socket);
@@ -198,7 +184,7 @@ export default {
   created() {
     //触发父组件的事件 在登录界面需要显示底部
     this.$emit("toggle", true);
-	
+
     this.connectWebscoket(
       this.$store.state.auth.hash,
       this.$store.state.auth.token

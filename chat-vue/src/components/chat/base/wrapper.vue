@@ -1,14 +1,14 @@
 <template>
   <main class="chat-logs">
-    <h2 class="visually-hidden">Инсайдеры Windows 10</h2>
+    <h2 class="visually-hidden">好友私聊 Windows 10</h2>
 
     <header class="chat-logs__header">
       <img src="/assets/images/goback.png" @click="goBack()" />
       &nbsp;&nbsp;
       <article class="chat-logs__chat-info">
-        <h3 class="chat-logs__chat-title">Инсайдеры Windows 10</h3>
+        <h3 class="chat-logs__chat-title">好友私聊 Windows 10</h3>
 
-        <p class="chat-logs__chat-description">749 members</p>
+        <p class="chat-logs__chat-description">2名成员</p>
       </article>
 
       <div class="chat-logs__buttons">
@@ -24,10 +24,10 @@
       <a href="#message1">
         <div class="chat-logs__pinned-message">
           <blockquote class="chat-logs__quote chat-logs__quote_pinned">
-            <cite class="chat-logs__quote-autor">Alexandr Petnitsky</cite>
+            <cite class="chat-logs__quote-autor">{{login.nickname}}</cite>
 
             <p class="chat-logs__quote-text">
-              На одном мониторе кнопки с текстом, на другом без
+              {{login.content}}
             </p>
 
             <button class="chat-logs__close-button" aria-label="Close"></button>
@@ -40,6 +40,36 @@
           <time class="chat-logs__info chat-logs__info_date"
             >March 23, 2018</time
           >
+        </div>
+
+        <div
+          class="chat-logs__messages-wrapper"
+          v-for="(wrp, index) in myWapper"
+          :key="index"
+        >
+          <img class="chat-logs__avatar" :src="wrp.loginUser.avatar" />
+
+          <div class="chat-logs__message-group chat-logs__message-group_my">
+            <article class="chat-logs__message chat-logs__message_my">
+              <h3 class="chat-logs__sender chat-logs__sender_hidden">
+                {{ wrp.loginUser.nickname }}
+              </h3>
+
+              <div>
+                <p class="chat-logs__message-text">
+                  {{ wrp.content }}
+                </p>
+              </div>
+
+              <div class="chat-logs__details">
+                <div class="chat-logs__edition-mark">send</div>
+
+                <time class="chat-logs__message-time"></time>
+
+                <div class="chat-logs__read-mark"></div>
+              </div>
+            </article>
+          </div>
         </div>
 
         <div
@@ -59,13 +89,13 @@
               >
                 <a href="#">Alexandr Petnitsky</a>
               </h3>
-        
+
               <p class="chat-logs__message-text">
                 На одном мониторе кнопки с текстом, на другом без
               </p>
-        
+
               <span class="chat-logs__reply-button">Reply</span>
-        
+
               <div class="chat-logs__details">
                 <div class="chat-logs__edition-mark">edited</div>
                 <time class="chat-logs__message-time">19:35</time>
@@ -158,30 +188,6 @@
             </div>
           </article>
         </div> -->
-
-        <div class="chat-logs__messages-wrapper" v-for="(wrp, index) in myWapper" :key="index">
-          <img class="chat-logs__avatar" :src="wrp.loginUser.avatar" />
-
-          <div class="chat-logs__message-group chat-logs__message-group_my">
-            <article class="chat-logs__message chat-logs__message_my">
-              <h3 class="chat-logs__sender chat-logs__sender_hidden">{{wrp.loginUser.nickname}}</h3>
-
-              <div>
-                <p class="chat-logs__message-text">
-                  {{wrp.content}}
-                </p>
-              </div>
-
-              <div class="chat-logs__details">
-                <div class="chat-logs__edition-mark">edited</div>
-
-                <time class="chat-logs__message-time">21:03</time>
-
-                <div class="chat-logs__read-mark"></div>
-              </div>
-            </article>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -224,6 +230,7 @@ export default {
   emits: ["toggle"],
   data() {
     return {
+      login: {},
       myWapper: [],
       friendHash: "",
       socket: "", //Websocket对象
@@ -237,10 +244,9 @@ export default {
           hash: this.$store.state.auth.hash,
           avatar: "/assets/img/7.jpg",
           nickname: "Mos Chat",
-          content:
-            "关联系统通知提醒助手",
+          content: "关联系统通知提醒助手",
           createTime: "TUE",
-        }
+        },
       ],
       wapper: [],
     };
@@ -329,11 +335,13 @@ export default {
 
         if (ishttps) {
           this.socket = new WebSocket(
-            `wss://${addr}:${port}/${uri}?token=${token}`
+            // `wss://${addr}:${port}/${uri}?token=${token}`
+            `wss://www.moskid.asia/${uri}?token=${token}`
           );
         } else {
           this.socket = new WebSocket(
-            `ws://${addr}:${port}/${uri}?token=${token}`
+            // `ws://${addr}:${port}/${uri}?token=${token}`
+            `ws://www.moskid.asia/${uri}?token=${token}`
           );
         }
         //新建Websocket对象，并缓存到store
@@ -371,7 +379,7 @@ export default {
       if (this.socket.readyState === 1) {
         this.socket.send(JSON.stringify(data));
       }
-      data['loginUser'] = this.$cookies.get('LoginUser');
+      data["loginUser"] = this.$cookies.get("LoginUser");
       this.myWapper.push(data);
     },
     close: function () {
@@ -416,6 +424,7 @@ export default {
     if (typeof this.$store.state.ws.logs == "object") {
       this.logs = this.$store.state.ws.logs;
     }
+    this.login = this.$cookies.get('LoginUser');
   },
   mounted() {
     this.refresh();

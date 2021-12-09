@@ -9,13 +9,13 @@
 
                     <span class="login100-form-title p-t-20 p-b-45"></span>
                     
-                    <!-- 邮箱 -->
+                    <!-- 用户名 -->
                     <div class="wrap-input100 validate-input m-b-10">
                         <van-field 
                             v-model="user.username"
                             name="username"
                             placeholder="请输入注册账号"
-                            left-icon="envelop-o"
+                            :left-icon="icon.user"
                             :rules="rules.username"
                         />
                     </div>
@@ -27,7 +27,7 @@
                             v-model="user.password"
                             name="password"
                             placeholder="请输入密码"
-                            left-icon="bag-o"
+                            :left-icon="icon.pwd"
                             :rules="rules.password"
                         />
                     </div>
@@ -74,18 +74,8 @@
                     username: [
                         {
                             required: true,  //必填
-                            message: '请输入邮箱',
+                            message: '请输入用户名',
                         },
-                        // {
-                        //     message: '请输入正确邮箱地址',
-                        //     validator(value)
-                        //     {
-                        //         //正则表达式
-                        //         var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$")
-
-                        //         return reg.test(value)
-                        //     }
-                        // },
                     ],
                     //密码
                     password: [
@@ -94,6 +84,10 @@
                             message: '请输入密码'
                         }
                     ]
+                },
+                icon:{
+                    user: "/assets/images/f4.png",
+                    pwd: "/assets/images/f1.png"
                 }
             }
         },

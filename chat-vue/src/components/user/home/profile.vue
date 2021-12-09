@@ -19,17 +19,16 @@
       </div>
       <ul class="profiles-list mobile-list">
         <li class="mobile-list__item"><a href="#" class="mobile-list__link "> <span
-              class="active-profile profile-pic kupchic-boss"></span> <span>Aleksandr Kupchenya</span> </a></li>
-        <li class="mobile-list__item"><a href="#" class="mobile-list__link">Add Account</a></li>
+              class="active-profile profile-pic kupchic-boss"></span> <span>{{login.nickname}}</span> </a></li>
+        <li class="mobile-list__item"><a href="#" class="mobile-list__link">增加新的账号</a></li>
       </ul>
       <ul class="mobile-list">
   
-        <li class="mobile-list__item"><a href="#" class="mobile-list__link">New Group</a></li>
-        <li class="mobile-list__item"><a href="#" class="mobile-list__link">New Channel</a></li>
-        <li class="mobile-list__item"><a href="#" class="mobile-list__link">Contacts</a></li>
-        <li class="mobile-list__item"><a href="#" class="mobile-list__link">Calls</a></li>
-        <li class="mobile-list__item"><a href="#" class="mobile-list__link">Settings</a></li>
-        <li class="mobile-list__item"><a href="#" class="mobile-list__link">Night Mode</a></li>
+        <li class="mobile-list__item"><a href="#" class="mobile-list__link">新的群组</a></li>
+        <li class="mobile-list__item"><a href="#" class="mobile-list__link">系统通知</a></li>
+        <li class="mobile-list__item"><a href="#" class="mobile-list__link">联系人</a></li>
+        <li class="mobile-list__item"><a href="#" class="mobile-list__link">社交电话</a></li>
+        <li class="mobile-list__item"><a href="#" class="mobile-list__link">夜间模式</a></li>
       </ul>
     </div>
   </div>

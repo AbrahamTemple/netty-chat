@@ -9,14 +9,14 @@
 
                     <span class="login100-form-title p-t-20 p-b-45"></span>
                     
-                    <!-- 邮箱 -->
+                    <!-- 用户名 -->
                     <div class="wrap-input100 validate-input m-b-10">
                         <van-field 
-                            v-model="user.email"
-                            name="email"
-                            placeholder="请输入注册邮箱"
-                            left-icon="envelop-o"
-                            :rules="rules.email"
+                            v-model="user.username"
+                            name="username"
+                            placeholder="请输入注册账号"
+                            :left-icon="icon.user"
+                            :rules="rules.username"
                         />
                     </div>
                     
@@ -27,8 +27,30 @@
                             v-model="user.password"
                             name="password"
                             placeholder="请输入密码"
-                            left-icon="bag-o"
+                            :left-icon="icon.pwd"
                             :rules="rules.password"
+                        />
+                    </div>
+
+                    <!-- 邮箱 -->
+                    <div class="wrap-input100 validate-input m-b-10">
+                        <van-field
+                            v-model="user.email"
+                            name="email"
+                            placeholder="请输入邮箱"
+                            :left-icon="icon.mail"
+                            :rules="rules.email"
+                        />
+                    </div>
+
+                    <!-- 手机号 -->
+                    <div class="wrap-input100 validate-input m-b-10">
+                        <van-field
+                            v-model="user.phone"
+                            name="phone"
+                            placeholder="请输入手机号"
+                            :left-icon="icon.phone"
+                            :rules="rules.phone"
                         />
                     </div>
 
@@ -64,11 +86,20 @@
         {
             return {
                 user: {
-                    email: '',
-                    password: ''
+                    username: '',
+                    password: '',
+                    emial: '',
+                    phone: ''
                 },
                 //表单的验证规则
                 rules: {
+                     //用户名
+                    username: [
+                        {
+                            required: true,  //必填
+                            message: '请输入用户名',
+                        },
+                    ],
                     //邮箱
                     email: [
                         {
@@ -92,7 +123,20 @@
                             required: true, //必填
                             message: '请输入密码'
                         }
-                    ]
+                    ],
+                    //用户名
+                    phone: [
+                        {
+                            required: true,  //必填
+                            message: '请输入手机号',
+                        },
+                    ],
+                },
+                icon:{
+                    user: "/assets/images/f4.png",
+                    pwd: "/assets/images/f1.png",
+                    mail: "/assets/images/sc.png",
+                    phone: "/assets/images/f2.png"
                 }
             }
         },
@@ -108,7 +152,7 @@
                     //提醒
                     this.$notify({
                         type: 'success',
-                        message: result.msg,
+                        message: "注册成功",
                         duration: 1500
                     })
 
@@ -122,7 +166,7 @@
                     //失败
                     this.$notify({
                         type: 'warning',
-                        message: result.msg,
+                        message: "注册功能未开放",
                         duration: 1500
                     })
                     return

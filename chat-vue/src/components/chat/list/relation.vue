@@ -1,5 +1,10 @@
 <template>
   <div class="limiter">
+    <van-pull-refresh 
+       success-text="刷新成功"
+       v-model="isLoading"
+       @refresh="onRefresh">
+
     <van-dropdown-menu>
       <van-dropdown-item title="搜索" ref="item">
         <van-search
@@ -12,13 +17,17 @@
 		/>
       </van-dropdown-item>
     </van-dropdown-menu>
-    <van-contact-card
-      type="add"
-      @click="onAdd"
-      add-text="添加好友"
-      :icon="addIcon"
-      :right-icon="rightIcon"
-    />
+
+    <van-sticky>
+      <van-contact-card
+        type="add"
+        @click="onAdd"
+        add-text="添加好友"
+        :icon="addIcon"
+        :right-icon="rightIcon"
+      />
+    </van-sticky>
+
     <van-contact-card
       type="edit"
       :name="login.nickname"
@@ -27,7 +36,16 @@
       :editable="false"
       add-text="个人名片"
     />
+
+    <!-- 列表 -->
+    <van-list
+    v-model="loading"
+    :finished="finished"
+    finished-text="没有更多了"
+    @load="onLoad"
+    >
     <div v-for="(guy, index) in list" :key="index">
+      
       <router-link
         :to="{ name: 'WrapperIndex', params: { hash: guy.mosUser.hash } }"
       >
@@ -41,7 +59,10 @@
           :right-icon="rightIcon"
         />
       </router-link>
+      
     </div>
+    </van-list>
+    </van-pull-refresh>
   </div>
 </template>
 
@@ -49,15 +70,16 @@
 <script>
 import md5 from "js-md5";
 import { reactive } from "vue";
+import { Toast } from 'vant';
 export default {
   name: "relation",
   emits: ["toggle"],
   data() {
     return {
-	  value: '',
+	    value: '',
       addIcon: "/assets/img/add-icon.png",
       rightIcon: "/assets/images/go.png",
-	  searchIcon: "/assets/img/lupa.png",
+	    searchIcon: "/assets/img/lupa.png",
       login: {
         avatar: "/assets/images/avatar-01.jpg",
         nickname: "现在去请登录",
@@ -68,21 +90,33 @@ export default {
         name: "张三",
         tel: "13000000000",
       },
+      isLoading: false,
     };
   },
   methods: {
-	onSearch(val) {
-      console.log(val);
+    onLoad() {
+      var id = this.$cookies.get("LoginUser")["id"];
+      this.friend(id);
     },
-    onCancel() {
-      this.$refs.item.toggle();
+    onRefresh() {
+      setTimeout(() => {
+        Toast('刷新成功');
+        this.isLoading = false;
+        this.onLoad();
+      }, 1000);
     },
-    onEdit() {
-      
+    onSearch(val) {
+        console.log(val);
+      },
+      onCancel() {
+        this.$refs.item.toggle();
+      },
+      onEdit() {
+        
+      },
+      onAdd() {
+      this.$router.push('/chat/base/social')
     },
-    onAdd() {
-		this.$router.push('/chat/base/social')
-	},
     async friend(value) {
       console.log(value);
       var result = await this.$api.friend(value);
@@ -144,4 +178,10 @@ export default {
 <style scoped>
 @import url("/public/assets/css/login/util.css");
 @import url("/public/assets/css/login/main.css");
+.doge {
+    width: 140px;
+    height: 72px;
+    margin-top: 8px;
+    border-radius: 4px;
+}
 </style>
